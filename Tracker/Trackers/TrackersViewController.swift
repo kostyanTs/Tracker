@@ -324,14 +324,6 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
         
         cell.delegate = self
         let currentDate = Date().getDateWithoutTime()
-        if currentDate != datePicker.date.getDateWithoutTime() {
-            cell.plusButton.isEnabled = false
-            cell.plusButton.tintColor = categories[indexPath.section].trackers[indexPath.row].color
-        } else {
-            cell.plusButton.isEnabled = true
-            cell.plusButton.tintColor = categories[indexPath.section].trackers[indexPath.row].color
-        }
-        
         let trackerId = categories[indexPath.section].trackers[indexPath.row].id
         let complitedDates = complitedTrackers?.filter{$0.id == trackerId} ?? []
         if selectedDate == nil {
@@ -396,7 +388,7 @@ extension TrackersViewController: CreateTrackersDelegate {
 
 extension TrackersViewController: TrackersCollectionViewCellProtocol {
     func didTapPlusTrackerButton(_ cell: TrackersCollectionViewCell, completion: @escaping (Tracker, Int) -> Void) {
-        if cell.isDone == true {
+        if cell.isDone == true || currentDate != datePicker.date.getDateWithoutTime() {
             return
         }
         guard let indexPath = trackerCollectionView.indexPath(for: cell) else { return }
