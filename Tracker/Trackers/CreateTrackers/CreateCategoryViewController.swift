@@ -32,6 +32,7 @@ final class CreateCategoryViewController: UIViewController {
     private lazy var categoryTitleTextField = {
         let textField = UITextField()
         textField.backgroundColor = .clear
+        textField.addTarget(self, action: #selector(Self.textFieldDidChanged), for: .editingChanged)
         textField.font = .systemFont(ofSize: 17, weight: .regular)
         textField.textColor = .ypBlackDay
         textField.placeholder = "Введите название категории"
@@ -57,9 +58,9 @@ final class CreateCategoryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhiteDay
-        categoryTitleTextField.addTarget(self, action: #selector(Self.textFieldDidChanged), for: .editingChanged)
         setupNavBar()
         setupViews()
+        categoryTitleTextField.delegate = self
     }
     
     private func setupNavBar() {
@@ -104,5 +105,12 @@ final class CreateCategoryViewController: UIViewController {
     @objc func textFieldDidChanged() {
         readyButton.isEnabled = true
         readyButton.backgroundColor  = .ypBlackDay
+    }
+}
+
+extension CreateCategoryViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
     }
 }

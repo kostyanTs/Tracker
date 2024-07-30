@@ -47,8 +47,7 @@ final class CategoryTableViewCell: UITableViewCell {
             categoryTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             categoryTitle.heightAnchor.constraint(equalToConstant: 22),
             categoryTitle.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
-            categoryTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -41),
-
+            categoryTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -41)
         ])
     }
     

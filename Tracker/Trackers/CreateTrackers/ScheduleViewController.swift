@@ -150,10 +150,8 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
         cell.scheduleTitle.text = day?.dayValue
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.cellForRow(at: indexPath)?.isSelected = false
+  
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return nil
     }
-    
 }
-

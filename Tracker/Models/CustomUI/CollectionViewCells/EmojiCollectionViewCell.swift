@@ -49,8 +49,7 @@ final class EmojiCollectionViewCell: UICollectionViewCell {
             emojiView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 7),
             emojiView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 7),
             emojiView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -7),
-            emojiView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -7),
-            
+            emojiView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -7)
         ])
     }
 }

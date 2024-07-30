@@ -144,7 +144,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             dayLabel.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 16),
             dayLabel.leadingAnchor.constraint(equalTo: buttonView.leadingAnchor, constant: 12),
             dayLabel.trailingAnchor.constraint(equalTo: buttonView.trailingAnchor, constant: -54),
-            dayLabel.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: -24),
+            dayLabel.bottomAnchor.constraint(equalTo: buttonView.bottomAnchor, constant: -24)
         ])
     }
     
@@ -165,7 +165,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return buttonImage
     }
 
-    
     @objc
     private func didTapTrackerCollectionButton() {
         delegate?.didTapPlusTrackerButton(self) { [weak self] tracker, countComplitedDates in

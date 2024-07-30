@@ -23,4 +23,31 @@ class DataHolder {
     var colorForIndexPath: UIColor?
     
     private init() {}
+    
+    func addTrackerToCategories(tracker: Tracker, titleCategory: String?) {
+        guard let categories = self.categories else { return }
+        for i in 0..<categories.count {
+            if self.categories?[i].title == titleCategory {
+                guard let titleCategory = titleCategory else { return }
+                if self.categories?[i].trackers == nil {
+                    let newCategory = TrackerCategory(title: titleCategory, trackers: [tracker])
+                    self.categories?.remove(at: i)
+                    self.categories?.append(newCategory)
+                } else {
+                    var trackers = self.categories?[i].trackers
+                    trackers?.append(tracker)
+                    let newCategory = TrackerCategory(title: titleCategory, trackers: [tracker])
+                    self.categories?.remove(at: i)
+                    self.categories?.append(newCategory)
+                }
+            }
+        }
+    }
+    
+    func deleteValuesForIndexPath() {
+        categoryForIndexPath = nil
+        colorForIndexPath = nil
+        emojiForIndexPath = nil
+        scheduleForIndexPath = nil
+    }
 }

@@ -79,10 +79,7 @@ final class CategoryViewController: UIViewController {
         setupViews()
         tableView.delegate = self
         tableView.dataSource = self
-        if dataHolder.categories != nil {
-            nilCenterLabel.isHidden = true
-            nilCenterImageView.isHidden = true
-        }
+        checkCategories()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -161,7 +158,10 @@ extension CategoryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.reuseIdentifier, for: indexPath) as? CategoryTableViewCell else { return UITableViewCell()}
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: CategoryTableViewCell.reuseIdentifier,
+            for: indexPath
+        ) as? CategoryTableViewCell else { return UITableViewCell()}
         cell.backgroundColor = .createTrackersTextField
         guard let categories = dataHolder.categories else { return UITableViewCell() }
         cell.categoryTitle.text = categories[indexPath.row].title
@@ -180,7 +180,7 @@ extension CategoryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        let cell = tableView.cellForRow(at: indexPath)
+        let cell = tableView.cellForRow(at: indexPath) as? CategoryTableViewCell
         if cell?.isSelected == true {
             tableView.deselectRow(at: indexPath, animated: true)
             cell?.editingAccessoryType = .none
@@ -195,5 +195,3 @@ extension CategoryViewController: UITableViewDelegate {
         tableView.cellForRow(at: indexPath)?.editingAccessoryType = .none
     }
 }
-
-

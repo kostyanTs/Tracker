@@ -79,7 +79,6 @@ final class CreateTrackersViewController: UIViewController {
             habitButton.bottomAnchor.constraint(equalTo: unregularButton.topAnchor, constant: -16),
             habitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             habitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            
         ])
     }
     
@@ -109,4 +108,3 @@ extension CreateTrackersViewController: CreateUnregularEventDelegate {
         delegate?.reloadTrackersCollectionView()
     }
 }
-

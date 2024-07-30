@@ -57,6 +57,7 @@ final class CreateHabitViewController: UIViewController {
         textField.font = .systemFont(ofSize: 17, weight: .regular)
         textField.textColor = .ypBlackDay
         textField.placeholder = "Введите название трекера"
+        textField.addTarget(self, action: #selector(Self.textFieldDidChanged), for: .editingChanged)
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
@@ -89,6 +90,7 @@ final class CreateHabitViewController: UIViewController {
         button.backgroundColor = .ypGrey
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
+        button.isEnabled = false
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -161,16 +163,20 @@ final class CreateHabitViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhiteDay
-        colorCollectionView.delegate = self
-        colorCollectionView.dataSource = self
-        emojiCollectionView.delegate = self
-        emojiCollectionView.dataSource = self
+        setupDelegates()
         setupNavBar()
         setupViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if isButtonEnabled() {
+            createButton.isEnabled = true
+        }
+        configButtons()
+    }
+    
+    private func configButtons() {
         let scheduleTitle = addScheduleTitle()
         categoryButton.configure(title: "Категория", categoryTitle: dataHolder.categoryForIndexPath)
         scheduleButton.configure(title: "Расписание", categoryTitle: scheduleTitle)
@@ -179,6 +185,14 @@ final class CreateHabitViewController: UIViewController {
     private func setupNavBar() {
         navigationItem.titleView = titleLabel
         navigationItem.setHidesBackButton(true, animated: true)
+    }
+    
+    private func setupDelegates() {
+        colorCollectionView.delegate = self
+        colorCollectionView.dataSource = self
+        emojiCollectionView.delegate = self
+        emojiCollectionView.dataSource = self
+        trackerTitleTextField.delegate = self
     }
     
     private func setupViews() {
@@ -284,16 +298,37 @@ final class CreateHabitViewController: UIViewController {
         return scheduleTitle
     }
     
+    private func isButtonEnabled() -> Bool {
+        if (trackerTitleTextField.text == nil) || 
+            dataHolder.categoryForIndexPath == nil ||
+            dataHolder.scheduleForIndexPath == nil ||
+            dataHolder.colorForIndexPath == nil ||
+            dataHolder.emojiForIndexPath == nil
+        { return false }
+        createButton.backgroundColor = .ypBlackDay
+        return true
+    }
+    
+    @objc func textFieldDidChanged() {
+        if isButtonEnabled() {
+            createButton.isEnabled = true
+        }
+    }
+    
     @objc
     private func didTapCancelButton() {
+        dataHolder.deleteValuesForIndexPath()
         dismiss(animated: true)
     }
     
     @objc
     private func didTapCreateButton() {
-        if (trackerTitleTextField.text == nil) || dataHolder.categoryForIndexPath == nil || dataHolder.scheduleForIndexPath == nil || dataHolder.colorForIndexPath == nil || dataHolder.emojiForIndexPath == nil {
-            return
-        }
+        if (trackerTitleTextField.text == nil) || 
+            dataHolder.categoryForIndexPath == nil ||
+            dataHolder.scheduleForIndexPath == nil ||
+            dataHolder.colorForIndexPath == nil ||
+            dataHolder.emojiForIndexPath == nil
+        { return }
         guard let nameTracker = trackerTitleTextField.text,
               let color = dataHolder.colorForIndexPath,
               let emoji = dataHolder.emojiForIndexPath,
@@ -307,24 +342,8 @@ final class CreateHabitViewController: UIViewController {
                               schedule: schedule,
                               createdDate: dateWithouTime)
         dataHolder.counterForId += 1
-        guard let categories = dataHolder.categories else { return }
-        for i in 0..<categories.count {
-            if dataHolder.categories?[i].title == dataHolder.categoryForIndexPath {
-                if dataHolder.categories?[i].trackers == nil {
-                    dataHolder.categories?[i].changeTrackers(newValue: [tracker])
-                } else {
-                    var trackers = dataHolder.categories?[i].trackers
-                    trackers?.append(tracker)
-                    guard let trackers = trackers else { return }
-                    dataHolder.categories?[i].changeTrackers(newValue: trackers)
-                }
-            }
-        }
-        print(dataHolder.categories as Any)
-        dataHolder.categoryForIndexPath = nil
-        dataHolder.colorForIndexPath = nil
-        dataHolder.emojiForIndexPath = nil
-        dataHolder.scheduleForIndexPath = nil
+        dataHolder.addTrackerToCategories(tracker: tracker, titleCategory: dataHolder.categoryForIndexPath)
+        dataHolder.deleteValuesForIndexPath()
         delegate?.reloadTrackersHabitCollectionView()
         dismiss(animated: true)
     }
@@ -351,12 +370,18 @@ extension CreateHabitViewController: UICollectionViewDelegate {
             cell.containerView.layer.masksToBounds = true
             cell.containerView.layer.cornerRadius = 8
             dataHolder.colorForIndexPath = colorItems[indexPath.row]
+            if isButtonEnabled() {
+                createButton.isEnabled = true
+            }
         } else {
             guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else { return }
             cell.containerView.backgroundColor = .ypGrey
             cell.containerView.layer.masksToBounds = true
             cell.containerView.layer.cornerRadius = 16
             dataHolder.emojiForIndexPath = emojiItems[indexPath.row]
+            if isButtonEnabled() {
+                createButton.isEnabled = true
+            }
         }
     }
     
@@ -383,11 +408,17 @@ extension CreateHabitViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.colorCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.identifier, for: indexPath) as? ColorCollectionViewCell else { return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: ColorCollectionViewCell.identifier,
+                for: indexPath
+            ) as? ColorCollectionViewCell else { return UICollectionViewCell()}
             cell.colorView.backgroundColor = colorItems[indexPath.row]
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.identifier, for: indexPath) as? EmojiCollectionViewCell else { return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: EmojiCollectionViewCell.identifier,
+                for: indexPath
+            ) as? EmojiCollectionViewCell else { return UICollectionViewCell()}
             cell.emojiView.text = emojiItems[indexPath.row]
             return cell
         }
@@ -404,5 +435,9 @@ extension CreateHabitViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
- 
-
+extension CreateHabitViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+}

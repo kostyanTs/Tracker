@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SupplementaryView: UICollectionReusableView {
+final class SupplementaryView: UICollectionReusableView {
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 19, weight: .bold)
@@ -19,7 +19,6 @@ class SupplementaryView: UICollectionReusableView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
-
     }
     
     private func setupViews() {
@@ -29,8 +28,7 @@ class SupplementaryView: UICollectionReusableView {
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
-            titleLabel.widthAnchor.constraint(equalTo: widthAnchor),
-            
+            titleLabel.widthAnchor.constraint(equalTo: widthAnchor)
         ])
     }
     

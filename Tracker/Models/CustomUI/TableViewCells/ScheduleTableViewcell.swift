@@ -61,7 +61,6 @@ final class ScheduleTableViewcell: UITableViewCell {
             tableSwitch.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 276),
             tableSwitch.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
             tableSwitch.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -22)
-
         ])
     }
     

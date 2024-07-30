@@ -13,6 +13,7 @@ final class TrackersViewController: UIViewController {
     
     var categories: [TrackerCategory]?
     var complitedTrackers: [TrackerRecord]?
+    
     private var weekday: Int?
     private var selectedDate: Date?
     private var currentDate: Date?
@@ -105,7 +106,9 @@ final class TrackersViewController: UIViewController {
     private lazy var trackerCollectionView: SelfSizingCollectionView = {
         let collectionView = SelfSizingCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.register(TrackersCollectionViewCell.self, forCellWithReuseIdentifier: TrackersCollectionViewCell.identifier)
-        collectionView.register(SupplementaryView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
+        collectionView.register(SupplementaryView.self, 
+                                forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+                                withReuseIdentifier: "header")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.allowsMultipleSelection = false
@@ -204,7 +207,6 @@ final class TrackersViewController: UIViewController {
             trackerCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             trackerCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             trackerCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -1)
-            
         ])
     }
     
@@ -250,6 +252,7 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func didTapLeftNavButton() {
+        dataHolder.deleteValuesForIndexPath()
         let createTrackerViewController = CreateTrackersViewController()
         createTrackerViewController.delegate = self
         let navigationCreateTrackerViewController = UINavigationController(rootViewController: createTrackerViewController)
@@ -269,11 +272,7 @@ final class TrackersViewController: UIViewController {
     }
 }
 
-extension TrackersViewController: UICollectionViewDelegate {
-
-}
-
-extension TrackersViewController: UICollectionViewDataSource {
+extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         var id: String                                      // 1
@@ -285,7 +284,10 @@ extension TrackersViewController: UICollectionViewDataSource {
         default:
             id = ""                                         // 5
         }
-        guard let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: id, for: indexPath) as? SupplementaryView else { return UICollectionReusableView() }
+        guard let view = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: id, for: indexPath
+        ) as? SupplementaryView else { return UICollectionReusableView() }
         guard let categories = self.categories else { return view }
         view.titleLabel.text = categories[indexPath.section].title
         view.backgroundColor = .clear
@@ -309,7 +311,10 @@ extension TrackersViewController: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackersCollectionViewCell.identifier, for: indexPath) as? TrackersCollectionViewCell else { return UICollectionViewCell()}
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: TrackersCollectionViewCell.identifier, 
+            for: indexPath
+        ) as? TrackersCollectionViewCell else { return UICollectionViewCell()}
         guard let categories = self.categories else { return cell }
         cell.mainView.backgroundColor = categories[indexPath.section].trackers[indexPath.row].color
         cell.emojiView.text = categories[indexPath.section].trackers[indexPath.row].emoji
@@ -377,7 +382,6 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-
 extension TrackersViewController: CreateTrackersDelegate {
     func reloadTrackersCollectionView() {
         weekday = nil
@@ -397,7 +401,6 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
         }
         guard let indexPath = trackerCollectionView.indexPath(for: cell) else { return }
         guard let categories = self.categories else { return }
-        
         let tracker = categories[indexPath.section].trackers[indexPath.row]
         let trackerId = tracker.id
         self.addToComplitedTrackers(id: trackerId)
@@ -407,8 +410,4 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
         print(complitedTrackers)
         completion(tracker, countComplitedDates)
     }
-    
-    
 }
-
-

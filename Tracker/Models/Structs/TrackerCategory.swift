@@ -9,11 +9,7 @@ import Foundation
 
 struct TrackerCategory {
     let title: String
-    var trackers: [Tracker]
-    
-    mutating func changeTrackers(newValue: [Tracker]) {
-        self.trackers = newValue
-    }
+    let trackers: [Tracker]
 }
 
 
