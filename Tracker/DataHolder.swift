@@ -25,11 +25,11 @@ final class DataHolder {
     private init() {}
     
     func addTrackerToCategories(tracker: Tracker, titleCategory: String?) {
-        guard let categories = categories else { return }
+        guard let categories = self.categories else { return }
         for i in 0..<categories.count {
             if self.categories?[i].title == titleCategory {
                 guard let titleCategory = titleCategory else { return }
-                if self.categories?[i].trackers == nil {
+                if categories[i].trackers.isEmpty {
                     let newCategory = TrackerCategory(title: titleCategory, trackers: [tracker])
                     self.categories?.remove(at: i)
                     self.categories?.append(newCategory)
@@ -50,5 +50,9 @@ final class DataHolder {
         colorForIndexPath = nil
         emojiForIndexPath = nil
         scheduleForIndexPath = nil
+    }
+    
+    func deleteCategoryForIndexPath() {
+        categoryForIndexPath = nil
     }
 }

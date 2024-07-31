@@ -28,21 +28,18 @@ final class ScheduleViewController: UIViewController {
         tableView.separatorInset = .init(top: 0, left: 15, bottom: 10, right: 15)
         tableView.layer.masksToBounds = true
         tableView.layer.cornerRadius = 16
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
     private let underlineView: UIView = {
         let view = UIView()
         view.backgroundColor = .ypWhiteDay
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     private let upperlineView: UIView = {
         let view = UIView()
         view.backgroundColor = .ypWhiteDay
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -57,7 +54,6 @@ final class ScheduleViewController: UIViewController {
         button.isEnabled = true
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -66,13 +62,17 @@ final class ScheduleViewController: UIViewController {
         view.backgroundColor = .ypWhiteDay
         setupNavBar()
         setupViews()
-        tableView.delegate = self
-        tableView.dataSource = self
+        setupDelegates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         dataHolder.scheduleForIndexPath = nil
+    }
+    
+    private func setupDelegates() {
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     private func setupNavBar() {
@@ -81,10 +81,11 @@ final class ScheduleViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.addSubview(tableView)
-        view.addSubview(underlineView)
-        view.addSubview(upperlineView)
-        view.addSubview(readyButton)
+        [tableView, underlineView,
+         upperlineView, readyButton].forEach{
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),

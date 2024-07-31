@@ -36,7 +36,6 @@ final class CreateTrackersViewController: UIViewController {
         button.backgroundColor = .ypBlackDay
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -50,7 +49,6 @@ final class CreateTrackersViewController: UIViewController {
         button.backgroundColor = .ypBlackDay
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -66,8 +64,10 @@ final class CreateTrackersViewController: UIViewController {
     }
     
     private func setupView() {
-        view.addSubview(unregularButton)
-        view.addSubview(habitButton)
+        [unregularButton, habitButton].forEach{
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             unregularButton.heightAnchor.constraint(equalToConstant: 60),

@@ -22,7 +22,6 @@ final class TrackersViewController: UIViewController {
     private lazy var lineView: UIView = {
         let lineView = UIView()
         lineView.backgroundColor = .ypGrey
-        lineView.translatesAutoresizingMaskIntoConstraints = false
         return lineView
     }()
     
@@ -34,7 +33,6 @@ final class TrackersViewController: UIViewController {
         datePicker.layer.cornerRadius = 8
         datePicker.datePickerMode = .date
         datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-        datePicker.translatesAutoresizingMaskIntoConstraints = false
         return datePicker
     }()
     
@@ -46,7 +44,6 @@ final class TrackersViewController: UIViewController {
             action: #selector(Self.didTapLeftNavButton)
         )
         buttonView.tintColor = .ypBlackDay
-        buttonView.translatesAutoresizingMaskIntoConstraints = false
         return buttonView
     }()
     
@@ -55,14 +52,12 @@ final class TrackersViewController: UIViewController {
         label.textColor = .ypBlackDay
         label.text = "Трекеры"
         label.font = .systemFont(ofSize: 34, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var searchContainerView: UIView = {
         let containerView = UIView()
         containerView.backgroundColor = .searchGrey
-        containerView.translatesAutoresizingMaskIntoConstraints = false
         containerView.layer.masksToBounds = true
         containerView.layer.cornerRadius = 8
         return containerView
@@ -73,13 +68,11 @@ final class TrackersViewController: UIViewController {
         inputView.backgroundColor = .clear
         inputView.placeholder = "Поиск"
         inputView.font = .systemFont(ofSize: 17, weight: .regular)
-        inputView.translatesAutoresizingMaskIntoConstraints = false
         return inputView
     }()
     
     private lazy var searchImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         let image = UIImage(named: "searchIcon")
         imageView.image = image
         return imageView
@@ -89,7 +82,6 @@ final class TrackersViewController: UIViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "nilCenterIcon")
         imageView.image = image
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -99,7 +91,6 @@ final class TrackersViewController: UIViewController {
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textAlignment = .center
         label.text = "Что будем отслеживать?"
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -109,7 +100,6 @@ final class TrackersViewController: UIViewController {
         collectionView.register(SupplementaryView.self, 
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: "header")
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .clear
         collectionView.allowsMultipleSelection = false
         return collectionView
@@ -118,46 +108,47 @@ final class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhiteDay
-        self.currentDate = datePicker.date.getDateWithoutTime()
-        let categories = makeCategoriesForWeeday(categories: dataHolder.categories, forWeekdays: currentDate?.getWeekday())
-        self.categories = categories?.filter{!$0.trackers.isEmpty}
-        self.complitedTrackers = dataHolder.complitedTrackers
+        setupSelfValues()
         setupViews()
         addNavItems()
         trackerCollectionView.delegate = self
         trackerCollectionView.dataSource = self
-        print("viewDidLoad")
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print("viewWillApeared")
-        dataHolder.categoryForIndexPath = nil
-        dataHolder.scheduleForIndexPath = nil
-        dataHolder.colorForIndexPath = nil
-        dataHolder.emojiForIndexPath = nil
+        dataHolder.deleteValuesForIndexPath()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        print("viewDidDisappeared")
+    private func setupSelfValues() {
+        self.currentDate = datePicker.date.getDateWithoutTime()
+        let categories = makeCategoriesForWeeday(categories: dataHolder.categories, forWeekdays: currentDate?.getWeekday())
+        self.categories = categories?.filter{!$0.trackers.isEmpty}
+        self.complitedTrackers = dataHolder.complitedTrackers
     }
+    
+    private func setupDelegates() {
+        trackerCollectionView.delegate = self
+        trackerCollectionView.dataSource = self
+    }
+    
     private func addNavItems() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: plusButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
     }
     
     private func setupViews() {
-        view.addSubview(lineView)
-        view.addSubview(datePicker)
-        view.addSubview(plusButton)
-        view.addSubview(titleLabel)
-        view.addSubview(searchContainerView)
-        searchContainerView.addSubview(searchTextField)
-        searchContainerView.addSubview(searchImageView)
-        view.addSubview(nilCenterImageView)
-        view.addSubview(nilCenterLabel)
-        view.addSubview(trackerCollectionView)
+        [lineView, datePicker,
+         plusButton, titleLabel,
+         searchContainerView, nilCenterImageView,
+         nilCenterLabel, trackerCollectionView].forEach{
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        [searchTextField, searchImageView].forEach({
+            searchContainerView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        })
 
         NSLayoutConstraint.activate([
             lineView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -239,7 +230,6 @@ final class TrackersViewController: UIViewController {
             return nil
         }
         return newCategories
-        
     }
     
     private func addToComplitedTrackers(id: UInt) {
@@ -280,7 +270,8 @@ final class TrackersViewController: UIViewController {
         selectedDate = sender.date.getDateWithoutTime()
         guard let selectedDate = selectedDate else { return }
         weekday = selectedDate.getWeekday()
-        self.categories = makeCategoriesForWeeday(categories: dataHolder.categories, forWeekdays: weekday)
+        let categories = makeCategoriesForWeeday(categories: dataHolder.categories, forWeekdays: weekday)
+        self.categories = categories?.filter{!$0.trackers.isEmpty}
         trackerCollectionView.reloadData()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yy"
@@ -311,14 +302,8 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        var counter = 0
         guard let categories = self.categories else { return 0 }
-        for category in categories {
-            if !category.trackers.isEmpty {
-                counter += 1
-            }
-        }
-        return counter
+        return categories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -330,12 +315,13 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: TrackersCollectionViewCell.identifier, 
             for: indexPath
-        ) as? TrackersCollectionViewCell else { return UICollectionViewCell()}
+        ) as? TrackersCollectionViewCell else {
+            return UICollectionViewCell()
+        }
         guard let categories = self.categories else { return cell }
         cell.mainView.backgroundColor = categories[indexPath.section].trackers[indexPath.row].color
         cell.emojiView.text = categories[indexPath.section].trackers[indexPath.row].emoji
         cell.titleLabel.text = categories[indexPath.section].trackers[indexPath.row].name
-        
         cell.delegate = self
         let currentDate = Date().getDateWithoutTime()
         let trackerId = categories[indexPath.section].trackers[indexPath.row].id
@@ -379,11 +365,17 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let indexPath = IndexPath(row: 0, section: section)
-        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
-        
-        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width,
-                                                         height: collectionView.frame.width * 0.08))
-                                                             
+        let headerView = self.collectionView(
+            collectionView,
+            viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader,
+            at: indexPath
+        )
+        return headerView.systemLayoutSizeFitting(
+            CGSize(
+                width: collectionView.frame.width,
+                height: collectionView.frame.width * 0.08
+            )
+        )
     }
 }
 

@@ -22,13 +22,11 @@ final class CreateUnregularEventViewController: UIViewController {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
         return scrollView
     }()
     
     private lazy var contentView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .ypWhiteDay
         return view
     }()
@@ -38,7 +36,6 @@ final class CreateUnregularEventViewController: UIViewController {
         label.text = "Новая привычка"
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .black
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -47,7 +44,6 @@ final class CreateUnregularEventViewController: UIViewController {
         view.backgroundColor = .createTrackersTextField
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 16
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -58,7 +54,6 @@ final class CreateUnregularEventViewController: UIViewController {
         textField.textColor = .ypBlackDay
         textField.placeholder = "Введите название трекера"
         textField.addTarget(self, action: #selector(Self.textFieldDidChanged), for: .editingChanged)
-        textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }()
     
@@ -76,7 +71,6 @@ final class CreateUnregularEventViewController: UIViewController {
         button.layer.borderWidth = 1
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -90,7 +84,6 @@ final class CreateUnregularEventViewController: UIViewController {
         button.backgroundColor = .ypGrey
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -102,14 +95,12 @@ final class CreateUnregularEventViewController: UIViewController {
         button.backgroundColor = .createTrackersTextField
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
   
     private let colorCollectionView: SelfSizingCollectionView = {
         let collectionView = SelfSizingCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: ColorCollectionViewCell.identifier)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.allowsMultipleSelection = false
         return collectionView
     }()
@@ -117,14 +108,12 @@ final class CreateUnregularEventViewController: UIViewController {
     private let emojiCollectionView: SelfSizingCollectionView = {
         let collectionView = SelfSizingCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.register(EmojiCollectionViewCell.self, forCellWithReuseIdentifier: EmojiCollectionViewCell.identifier)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.allowsMultipleSelection = false
         return collectionView
     }()
     
     private var emojiTitle: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Emoji"
         label.font = .systemFont(ofSize: 19, weight: .bold)
         return label
@@ -132,7 +121,6 @@ final class CreateUnregularEventViewController: UIViewController {
     
     private var colorTitle: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Цвет"
         label.font = .systemFont(ofSize: 19, weight: .bold)
         return label
@@ -148,10 +136,8 @@ final class CreateUnregularEventViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if isButtonEnabled() {
-            createButton.isEnabled = true
-        }
-        categoryButton.configure(title: "Категория", categoryTitle: dataHolder.categoryForIndexPath)
+        setEnabledForCreateButton()
+        configCategoryButon()
     }
 
     private func setupNavBar() {
@@ -172,13 +158,17 @@ final class CreateUnregularEventViewController: UIViewController {
         scrollView.addSubview(contentView)
         contentView.addSubview(trackerTitleView)
         trackerTitleView.addSubview(trackerTitleTextField)
-        contentView.addSubview(categoryButton)
-        contentView.addSubview(cancelButton)
-        contentView.addSubview(createButton)
-        contentView.addSubview(colorCollectionView)
-        contentView.addSubview(emojiCollectionView)
-        contentView.addSubview(emojiTitle)
-        contentView.addSubview((colorTitle))
+        [categoryButton, cancelButton,
+         createButton, colorCollectionView,
+         emojiCollectionView, emojiTitle,
+         colorTitle].forEach{
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        [scrollView, contentView,
+         trackerTitleView, trackerTitleTextField].forEach{
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
@@ -234,6 +224,16 @@ final class CreateUnregularEventViewController: UIViewController {
             colorTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
             colorTitle.bottomAnchor.constraint(equalTo: colorCollectionView.topAnchor, constant: -24),
         ])
+    }
+    
+    private func configCategoryButon() {
+        categoryButton.configure(title: "Категория", categoryTitle: dataHolder.categoryForIndexPath)
+    }
+    
+    private func setEnabledForCreateButton() {
+        if isButtonEnabled() {
+            createButton.isEnabled = true
+        }
     }
     
     private func isButtonEnabled() -> Bool {

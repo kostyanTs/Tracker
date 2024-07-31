@@ -19,7 +19,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     
     lazy var containerView: UIView = {
         let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -29,14 +28,12 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.gray.withAlphaComponent(0.3).cgColor
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
     lazy var buttonView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -47,14 +44,12 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
         label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var emojiViewContainer: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.white.withAlphaComponent(0.3)
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -64,7 +59,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .center
         label.backgroundColor = .clear
         label.layer.masksToBounds = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -75,7 +69,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             target: self,
             action: #selector(Self.didTapTrackerCollectionButton)
         )
-        buttonView.translatesAutoresizingMaskIntoConstraints = false
         return buttonView
     }()
     
@@ -86,7 +79,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         label.textAlignment = .left
         label.text = "0 дней"
         label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -108,16 +100,26 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(containerView)
+        [containerView].forEach{
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         [mainView, buttonView].forEach{
             containerView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
         }
         [titleLabel,emojiViewContainer].forEach{
             mainView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        emojiViewContainer.addSubview(emojiView)
+        [emojiView].forEach{
+            emojiViewContainer.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
         [plusButton, dayLabel].forEach{
             buttonView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
         }
         
         NSLayoutConstraint.activate([

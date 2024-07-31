@@ -24,7 +24,6 @@ final class CategoryViewController: UIViewController {
         let imageView = UIImageView()
         let image = UIImage(named: "nilCenterIcon")
         imageView.image = image
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
@@ -35,7 +34,6 @@ final class CategoryViewController: UIViewController {
         label.textAlignment = .center
         label.numberOfLines = 2
         label.text = "Привычки и события можно\n объединить по смыслу"
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -47,7 +45,6 @@ final class CategoryViewController: UIViewController {
         tableView.separatorInset = .init(top: 0, left: 15, bottom: 10, right: 15)
         tableView.layer.masksToBounds = true
         tableView.layer.cornerRadius = 16
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
@@ -61,14 +58,12 @@ final class CategoryViewController: UIViewController {
         button.backgroundColor = .ypBlackDay
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
     private let lineView: UIView = {
         let view = UIView()
         view.backgroundColor = .ypWhiteDay
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -77,8 +72,7 @@ final class CategoryViewController: UIViewController {
         view.backgroundColor = .ypWhiteDay
         setupNavBar()
         setupViews()
-        tableView.delegate = self
-        tableView.dataSource = self
+        setupDelegates()
         checkCategories()
     }
     
@@ -86,7 +80,12 @@ final class CategoryViewController: UIViewController {
         super.viewWillAppear(animated)
         tableView.reloadData()
         checkCategories()
-        dataHolder.categoryForIndexPath = nil
+        dataHolder.deleteCategoryForIndexPath()
+    }
+    
+    private func setupDelegates() {
+        tableView.delegate = self
+        tableView.dataSource = self
     }
 
     private func setupNavBar() {
@@ -95,11 +94,12 @@ final class CategoryViewController: UIViewController {
     }
     
     private func setupViews() {
-        view.addSubview(nilCenterImageView)
-        view.addSubview(nilCenterLabel)
-        view.addSubview(tableView)
-        view.addSubview(addCategoryButton)
-        view.addSubview(lineView)
+        [nilCenterImageView, nilCenterLabel,
+         tableView, addCategoryButton,
+         lineView].forEach{
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             nilCenterImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

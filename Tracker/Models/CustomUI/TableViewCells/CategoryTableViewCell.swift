@@ -12,7 +12,6 @@ final class CategoryTableViewCell: UITableViewCell {
     lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -21,7 +20,6 @@ final class CategoryTableViewCell: UITableViewCell {
         label.textColor = .ypBlackDay
         label.backgroundColor = .clear
         label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -34,8 +32,14 @@ final class CategoryTableViewCell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(containerView)
-        containerView.addSubview(categoryTitle)
+        [containerView].forEach{
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        [categoryTitle].forEach{
+            containerView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),

@@ -12,7 +12,6 @@ final class ScheduleTableViewcell: UITableViewCell {
     lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .clear
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -21,13 +20,11 @@ final class ScheduleTableViewcell: UITableViewCell {
         label.textColor = .ypBlackDay
         label.backgroundColor = .clear
         label.font = .systemFont(ofSize: 17, weight: .regular)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     lazy var tableSwitch: UISwitch = {
         let tableSwitch = UISwitch()
-        tableSwitch.translatesAutoresizingMaskIntoConstraints = false
         tableSwitch.onTintColor = .ypBlue
         return tableSwitch
     }()
@@ -41,9 +38,14 @@ final class ScheduleTableViewcell: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(containerView)
-        containerView.addSubview(scheduleTitle)
-        containerView.addSubview(tableSwitch)
+        [containerView].forEach{
+            contentView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        [scheduleTitle, tableSwitch].forEach{
+            containerView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),

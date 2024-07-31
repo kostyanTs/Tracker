@@ -60,6 +60,10 @@ final class CreateCategoryViewController: UIViewController {
         view.backgroundColor = .ypWhiteDay
         setupNavBar()
         setupViews()
+        setupDelegates()
+    }
+    
+    private func setupDelegates() {
         categoryTitleTextField.delegate = self
     }
     
