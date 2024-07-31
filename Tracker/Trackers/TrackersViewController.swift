@@ -241,6 +241,22 @@ final class TrackersViewController: UIViewController {
         self.complitedTrackers = newComplitedTrackers
     }
     
+    private func deleteComplitedTrackers(id: UInt) {
+        let complitedTrackers = dataHolder.complitedTrackers ?? []
+        var newComplitedTrackers: [TrackerRecord] = []
+        let savedComplitedTrackers = complitedTrackers.filter{$0.id != id}
+        var forIdComplitedTrackers = complitedTrackers.filter{$0.id == id}
+        newComplitedTrackers += savedComplitedTrackers
+        if !forIdComplitedTrackers.isEmpty {
+            forIdComplitedTrackers.removeLast()
+            newComplitedTrackers += forIdComplitedTrackers
+            dataHolder.complitedTrackers = newComplitedTrackers
+            self.complitedTrackers = newComplitedTrackers
+        } else {
+            return
+        }
+    }
+    
     @objc
     private func didTapLeftNavButton() {
         dataHolder.deleteValuesForIndexPath()
@@ -376,18 +392,23 @@ extension TrackersViewController: CreateTrackersDelegate {
 }
 
 extension TrackersViewController: TrackersCollectionViewCellProtocol {
-    func didTapPlusTrackerButton(_ cell: TrackersCollectionViewCell, completion: @escaping (Tracker, Int) -> Void) {
-        if cell.isDone == true || currentDate != datePicker.date.getDateWithoutTime() {
+    func didTapPlusTrackerButton(_ cell: TrackersCollectionViewCell, completion: @escaping (Tracker, Int, Bool) -> Void) {
+        if currentDate != datePicker.date.getDateWithoutTime() {
             return
         }
         guard let indexPath = trackerCollectionView.indexPath(for: cell) else { return }
         guard let categories = self.categories else { return }
         let tracker = categories[indexPath.section].trackers[indexPath.row]
         let trackerId = tracker.id
-        self.addToComplitedTrackers(id: trackerId)
+        if cell.isDone {
+            self.deleteComplitedTrackers(id: trackerId)
+        } else {
+            self.addToComplitedTrackers(id: trackerId)
+        }
         dataHolder.complitedTrackers = self.complitedTrackers
+        print(self.complitedTrackers)
         let complitedDates = complitedTrackers?.filter{$0.id == trackerId} ?? []
         let countComplitedDates = complitedDates.count
-        completion(tracker, countComplitedDates)
+        completion(tracker, countComplitedDates, cell.isDone)
     }
 }

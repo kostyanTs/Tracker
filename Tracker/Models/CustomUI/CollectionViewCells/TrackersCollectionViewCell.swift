@@ -8,7 +8,7 @@
 import UIKit
 
 protocol TrackersCollectionViewCellProtocol: AnyObject {
-    func didTapPlusTrackerButton(_ cell: TrackersCollectionViewCell, completion: @escaping (Tracker, Int) -> Void)
+    func didTapPlusTrackerButton(_ cell: TrackersCollectionViewCell, completion: @escaping (Tracker, Int, Bool) -> Void)
 }
 
 final class TrackersCollectionViewCell: UICollectionViewCell {
@@ -167,13 +167,24 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
 
     @objc
     private func didTapTrackerCollectionButton() {
-        delegate?.didTapPlusTrackerButton(self) { [weak self] tracker, countComplitedDates in
+        delegate?.didTapPlusTrackerButton(self) { [weak self] tracker, countComplitedDates, isDone in
             guard let self = self else {
                 print("[TrackersCollectionViewCell]: didTapTrackerCollectionButton error in delegate?.didTapPlusTrackerButton")
                 return
             }
-            setupDoneButton(color: tracker.color)
-            dayLabel.text = "\(countComplitedDates) дней"
+            if isDone {
+                plusButton.setImage(setupPlusButtonImage(), for: .normal)
+                plusButton.tintColor = tracker.color
+                backgroundColor = .clear
+                dayLabel.text = "\(countComplitedDates) дней"
+                self.isDone = false
+            } else {
+                plusButton.setImage(setupDoneButtonImage(), for: .normal)
+                plusButton.tintColor = .ypWhiteDay
+                plusButton.backgroundColor = tracker.color.withAlphaComponent(0.3)
+                dayLabel.text = "\(countComplitedDates) дней"
+                self.isDone = true
+            }
         }
     }
 }

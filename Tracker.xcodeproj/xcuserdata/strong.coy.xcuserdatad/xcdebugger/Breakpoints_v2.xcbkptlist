@@ -302,8 +302,8 @@
             filePath = "Tracker/Trackers/TrackersViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "379"
-            endingLineNumber = "379"
+            startingLineNumber = "395"
+            endingLineNumber = "395"
             landmarkName = "didTapPlusTrackerButton(_:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,9 +318,25 @@
             filePath = "Tracker/Trackers/TrackersViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
+            startingLineNumber = "333"
+            endingLineNumber = "333"
             landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E2DE8EE2-6931-490E-A7C8-2FA7009831B0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Tracker/Trackers/TrackersViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "deleteComplitedTrackers(id:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
