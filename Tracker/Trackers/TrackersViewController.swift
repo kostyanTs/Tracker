@@ -220,8 +220,17 @@ final class TrackersViewController: UIViewController {
             guard let categories = categories else { return nil }
             for category in categories {
                 var newTrackers: [Tracker] = []
-                let trackers = category.trackers.filter{$0.schedule != nil}
-                newTrackers = trackers.filter{$0.schedule!.contains(where: {$0?.valueForDatePicker == forWeekdays})}
+                for i in 0..<category.trackers.count {
+                    let tracker = category.trackers[i]
+                    guard let weekdays = tracker.schedule else { return nil }
+                    for i in 0..<weekdays.count {
+                        let weekday = weekdays[i]
+                        guard let weekday = weekday else { return nil }
+                        if weekday.valueForDatePicker == forWeekdays {
+                            newTrackers.append(tracker)
+                        }
+                    }
+                }
                 let newCategory = TrackerCategory(title: category.title, trackers: newTrackers)
                 newCategories.append(newCategory)
             }
@@ -230,6 +239,7 @@ final class TrackersViewController: UIViewController {
             return nil
         }
         return newCategories
+        
     }
     
     private func addToComplitedTrackers(id: UInt) {

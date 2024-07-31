@@ -25,7 +25,7 @@ final class DataHolder {
     private init() {}
     
     func addTrackerToCategories(tracker: Tracker, titleCategory: String?) {
-        guard let categories = self.categories else { return }
+        guard let categories = categories else { return }
         for i in 0..<categories.count {
             if self.categories?[i].title == titleCategory {
                 guard let titleCategory = titleCategory else { return }
@@ -36,7 +36,8 @@ final class DataHolder {
                 } else {
                     var trackers = self.categories?[i].trackers
                     trackers?.append(tracker)
-                    let newCategory = TrackerCategory(title: titleCategory, trackers: [tracker])
+                    guard let trackers = trackers else { return }
+                    let newCategory = TrackerCategory(title: titleCategory, trackers: trackers)
                     self.categories?.remove(at: i)
                     self.categories?.append(newCategory)
                 }
