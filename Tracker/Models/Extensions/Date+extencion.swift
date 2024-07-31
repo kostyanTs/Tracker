@@ -8,11 +8,11 @@
 import Foundation
 
 extension Date {
-    func isBefore(date: Date) -> Bool {
+    func isBeforeOrEqual(date: Date) -> Bool {
         let calendar = Calendar.current
         let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
         let selfComponents = calendar.dateComponents([.year, .month, .day], from: self)
-    return calendar.date(from: selfComponents)! < calendar.date(from: dateComponents)!
+    return calendar.date(from: selfComponents)! <= calendar.date(from: dateComponents)!
     }
     
     func getWeekday() -> Int? {

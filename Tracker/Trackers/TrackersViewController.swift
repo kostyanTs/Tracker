@@ -235,22 +235,26 @@ final class TrackersViewController: UIViewController {
     
     private func addToComplitedTrackers(id: UInt) {
         var newComplitedTrackers = dataHolder.complitedTrackers ?? []
-        guard let date = Date().getDateWithoutTime() else { return }
+        var date = selectedDate
+        if date == nil {
+            date = datePicker.date.getDateWithoutTime()
+        }
+        guard let date else { return }
         let trackerRecord = TrackerRecord(id: id, date: date)
         newComplitedTrackers.append(trackerRecord)
         dataHolder.complitedTrackers = newComplitedTrackers
         self.complitedTrackers = newComplitedTrackers
     }
     
-    private func deleteComplitedTrackers(id: UInt) {
+    private func deleteComplitedTrackers(id: UInt, date: Date) {
         let complitedTrackers = dataHolder.complitedTrackers ?? []
         var newComplitedTrackers: [TrackerRecord] = []
         let savedComplitedTrackers = complitedTrackers.filter{$0.id != id}
         var forIdComplitedTrackers = complitedTrackers.filter{$0.id == id}
         newComplitedTrackers += savedComplitedTrackers
         if !forIdComplitedTrackers.isEmpty {
-            forIdComplitedTrackers.removeLast()
-            newComplitedTrackers += forIdComplitedTrackers
+            let newForIdComplitedTrackers = forIdComplitedTrackers.filter{$0.date != date}
+            newComplitedTrackers += newForIdComplitedTrackers
             dataHolder.complitedTrackers = newComplitedTrackers
             self.complitedTrackers = newComplitedTrackers
         } else {
@@ -324,17 +328,19 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
         cell.emojiView.text = categories[indexPath.section].trackers[indexPath.row].emoji
         cell.titleLabel.text = categories[indexPath.section].trackers[indexPath.row].name
         cell.delegate = self
-        let currentDate = Date().getDateWithoutTime()
+        let currentDate = datePicker.date.getDateWithoutTime()
         let trackerId = categories[indexPath.section].trackers[indexPath.row].id
         let complitedDates = complitedTrackers?.filter{$0.id == trackerId} ?? []
         if selectedDate == nil {
             selectedDate = currentDate
         }
+
         let complitedTrackerForDay = complitedDates.filter{$0.date == selectedDate}
         if complitedTrackerForDay.isEmpty {
             cell.plusButton.setImage(cell.setupPlusButtonImage(), for: .normal)
             cell.plusButton.tintColor = categories[indexPath.section].trackers[indexPath.row].color
             cell.backgroundColor = .clear
+            cell.isDone = false
         } else {
             cell.plusButton.setImage(cell.setupDoneButtonImage(), for: .normal)
             cell.plusButton.tintColor = .ypWhiteDay
@@ -394,15 +400,23 @@ extension TrackersViewController: CreateTrackersDelegate {
 
 extension TrackersViewController: TrackersCollectionViewCellProtocol {
     func didTapPlusTrackerButton(_ cell: TrackersCollectionViewCell, completion: @escaping (Tracker, Int, Bool) -> Void) {
-        if currentDate != datePicker.date.getDateWithoutTime() {
+        guard let currentDate = currentDate else { return }
+        guard let datePickerDate = datePicker.date.getDateWithoutTime() else { return }
+        if !datePickerDate.isBeforeOrEqual(date: currentDate){
             return
         }
+        
         guard let indexPath = trackerCollectionView.indexPath(for: cell) else { return }
         guard let categories = self.categories else { return }
         let tracker = categories[indexPath.section].trackers[indexPath.row]
         let trackerId = tracker.id
+        var date = selectedDate
+        if date == nil {
+            date = datePicker.date.getDateWithoutTime()
+        }
+        guard let date else { return }
         if cell.isDone {
-            self.deleteComplitedTrackers(id: trackerId)
+            self.deleteComplitedTrackers(id: trackerId, date: date)
         } else {
             self.addToComplitedTrackers(id: trackerId)
         }
