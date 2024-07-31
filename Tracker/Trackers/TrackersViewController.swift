@@ -334,8 +334,6 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
         guard let categories = self.categories else { return cell }
         cell.mainView.backgroundColor = categories[indexPath.section].trackers[indexPath.row].color
         cell.emojiView.text = categories[indexPath.section].trackers[indexPath.row].emoji
-        cell.emojiView.layer.masksToBounds = true
-        cell.emojiView.layer.cornerRadius = 14
         cell.titleLabel.text = categories[indexPath.section].trackers[indexPath.row].name
         
         cell.delegate = self
@@ -416,7 +414,6 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
             self.addToComplitedTrackers(id: trackerId)
         }
         dataHolder.complitedTrackers = self.complitedTrackers
-        print(self.complitedTrackers)
         let complitedDates = complitedTrackers?.filter{$0.id == trackerId} ?? []
         let countComplitedDates = complitedDates.count
         completion(tracker, countComplitedDates, cell.isDone)

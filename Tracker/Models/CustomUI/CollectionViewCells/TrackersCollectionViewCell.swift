@@ -51,11 +51,18 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    lazy var emojiViewContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.white.withAlphaComponent(0.3)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     lazy var emojiView: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textAlignment = .center
-        label.backgroundColor = UIColor.white.withAlphaComponent(0.3)
+        label.backgroundColor = .clear
         label.layer.masksToBounds = true
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -92,7 +99,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     
     override func draw(_ rect: CGRect) {
         super.draw(rect)
-        emojiView.layer.cornerRadius = emojiView.frame.size.width / 2
+        emojiViewContainer.layer.cornerRadius = emojiViewContainer.frame.size.width / 2
         plusButton.layer.cornerRadius = plusButton.frame.size.width / 2
     }
     
@@ -102,12 +109,16 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     
     private func setupViews() {
         contentView.addSubview(containerView)
-        containerView.addSubview(mainView)
-        containerView.addSubview(buttonView)
-        mainView.addSubview(titleLabel)
-        mainView.addSubview(emojiView)
-        buttonView.addSubview(plusButton)
-        buttonView.addSubview(dayLabel)
+        [mainView, buttonView].forEach{
+            containerView.addSubview($0)
+        }
+        [titleLabel,emojiViewContainer].forEach{
+            mainView.addSubview($0)
+        }
+        emojiViewContainer.addSubview(emojiView)
+        [plusButton, dayLabel].forEach{
+            buttonView.addSubview($0)
+        }
         
         NSLayoutConstraint.activate([
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
@@ -120,7 +131,6 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             mainView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
             mainView.heightAnchor.constraint(equalTo: containerView.heightAnchor, multiplier: 0.6),
             
-            
             buttonView.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: 0),
             buttonView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 0),
             buttonView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: 0),
@@ -131,10 +141,15 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             titleLabel.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -12),
             titleLabel.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -12),
             
-            emojiView.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 12),
-            emojiView.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 12),
-            emojiView.trailingAnchor.constraint(equalTo: emojiView.leadingAnchor, constant: 24),
-            emojiView.bottomAnchor.constraint(equalTo: emojiView.topAnchor, constant: 24),
+            emojiViewContainer.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 12),
+            emojiViewContainer.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 12),
+            emojiViewContainer.heightAnchor.constraint(equalTo: mainView.heightAnchor, multiplier: 0.3),
+            emojiViewContainer.widthAnchor.constraint(equalTo: emojiViewContainer.heightAnchor, multiplier: 1),
+            
+            emojiView.topAnchor.constraint(equalTo: emojiViewContainer.topAnchor, constant: 1),
+            emojiView.leadingAnchor.constraint(equalTo: emojiViewContainer.leadingAnchor, constant: 1),
+            emojiView.trailingAnchor.constraint(equalTo: emojiViewContainer.trailingAnchor, constant: -1),
+            emojiView.bottomAnchor.constraint(equalTo: emojiViewContainer.bottomAnchor, constant: -1),
             
             plusButton.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 8),
             plusButton.trailingAnchor.constraint(equalTo: buttonView.trailingAnchor, constant: -12),
