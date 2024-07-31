@@ -8,11 +8,11 @@
 import UIKit
 
 // временный класс для хранения данных
-class DataHolder {
+final class DataHolder {
     
     static let shared = DataHolder()
     
-    var counterForId: UInt = 0
+    var counterForId: UInt = .zero
     
     var categories: [TrackerCategory]? 
     var complitedTrackers: [TrackerRecord]?

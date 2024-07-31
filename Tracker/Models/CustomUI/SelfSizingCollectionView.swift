@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SelfSizingCollectionView: UICollectionView {
+final class SelfSizingCollectionView: UICollectionView {
     override public var contentSize: CGSize {
         didSet {
             self.invalidateIntrinsicContentSize()

@@ -130,13 +130,9 @@ final class CategoryViewController: UIViewController {
     }
     
     private func checkCategories() {
-        if dataHolder.categories != nil {
-            nilCenterLabel.isHidden = true
-            nilCenterImageView.isHidden = true
-        } else {
-            nilCenterLabel.isHidden = false
-            nilCenterImageView.isHidden = false
-        }
+        let isHidden = dataHolder.categories != nil
+        nilCenterLabel.isHidden = isHidden
+        nilCenterImageView.isHidden = isHidden
     }
     
     @objc

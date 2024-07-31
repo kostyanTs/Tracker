@@ -14,8 +14,8 @@ protocol CreateHabitDelegate: AnyObject {
 final class CreateHabitViewController: UIViewController {
     
     private let dataHolder = DataHolder.shared
-    private let colorItems = CollectionsItems().colors
-    private let emojiItems = CollectionsItems().emojies
+    private let colorItems = CollectionsItems.colors
+    private let emojiItems = CollectionsItems.emojies
     
     weak var delegate: CreateHabitDelegate?
     
@@ -277,23 +277,19 @@ final class CreateHabitViewController: UIViewController {
     }
     
     private func addScheduleTitle() -> String? {
-        var scheduleTitle: String?
+        var scheduleTitle: String = ""
         var counter = 0
         if dataHolder.scheduleForIndexPath != nil {
-            guard let scheduleForIndexPath = dataHolder.scheduleForIndexPath else { return nil }
-            for i in scheduleForIndexPath {
-                guard let i = i else { return nil }
-                if scheduleTitle == nil {
-                    scheduleTitle = i.keyValue
-                    counter += 1
-                } else {
-                    scheduleTitle?.append(contentsOf: ", \(i.keyValue)")
-                    counter += 1
-                }
-            }
+            dataHolder.scheduleForIndexPath?.forEach{scheduleTitle.append("\($0!.keyValue), "); counter += 1}
+        }
+        if scheduleTitle.isEmpty {
+            return nil
         }
         if counter == 7 {
             return "Каждый день"
+        } else {
+            scheduleTitle.removeLast()
+            scheduleTitle.removeLast()
         }
         return scheduleTitle
     }

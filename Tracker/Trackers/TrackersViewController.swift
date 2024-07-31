@@ -220,17 +220,8 @@ final class TrackersViewController: UIViewController {
             guard let categories = categories else { return nil }
             for category in categories {
                 var newTrackers: [Tracker] = []
-                for i in 0..<category.trackers.count {
-                    let tracker = category.trackers[i]
-                    guard let weekdays = tracker.schedule else { return nil }
-                    for i in 0..<weekdays.count {
-                        let weekday = weekdays[i]
-                        guard let weekday = weekday else { return nil }
-                        if weekday.valueForDatePicker == forWeekdays {
-                            newTrackers.append(tracker)
-                        }
-                    }
-                }
+                let trackers = category.trackers.filter{$0.schedule != nil}
+                newTrackers = trackers.filter{$0.schedule!.contains(where: {$0?.valueForDatePicker == forWeekdays})}
                 let newCategory = TrackerCategory(title: category.title, trackers: newTrackers)
                 newCategories.append(newCategory)
             }
@@ -268,7 +259,6 @@ final class TrackersViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd.MM.yy"
         let formattedDate = dateFormatter.string(from: selectedDate)
-        print("Selected date: \(formattedDate), weekday: \(weekday) ")
     }
 }
 
@@ -363,10 +353,9 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
         return CGSize(width: (collectionView.frame.width - 9) / 2, height: ((collectionView.frame.width - 5) / 2) * 0.89)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {       // 2
-        
-        let indexPath = IndexPath(row: 0, section: section)         // 3
-        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)                   // 4
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        let indexPath = IndexPath(row: 0, section: section)
+        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: indexPath)
         
         return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width,
                                                          height: collectionView.frame.width * 0.08))
@@ -399,7 +388,6 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
         dataHolder.complitedTrackers = self.complitedTrackers
         let complitedDates = complitedTrackers?.filter{$0.id == trackerId} ?? []
         let countComplitedDates = complitedDates.count
-        print(complitedTrackers)
         completion(tracker, countComplitedDates)
     }
 }

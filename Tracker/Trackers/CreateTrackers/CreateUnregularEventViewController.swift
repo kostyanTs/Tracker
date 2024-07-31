@@ -14,8 +14,8 @@ protocol CreateUnregularEventDelegate: AnyObject {
 final class CreateUnregularEventViewController: UIViewController {
     
     private let dataHolder = DataHolder.shared
-    private let colorItems = CollectionsItems().colors
-    private let emojiItems = CollectionsItems().emojies
+    private let colorItems = CollectionsItems.colors
+    private let emojiItems = CollectionsItems.emojies
     
     weak var delegate: CreateUnregularEventDelegate?
     
