@@ -95,9 +95,11 @@ final class TrackersViewController: UIViewController {
     }()
     
     private lazy var trackerCollectionView: SelfSizingCollectionView = {
-        let collectionView = SelfSizingCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.register(TrackersCollectionViewCell.self, forCellWithReuseIdentifier: TrackersCollectionViewCell.identifier)
-        collectionView.register(SupplementaryView.self, 
+        let collectionView = SelfSizingCollectionView(frame: .zero, 
+                                                      collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.register(TrackersCollectionViewCell.self,
+                                forCellWithReuseIdentifier: TrackersCollectionViewCell.identifier)
+        collectionView.register(SupplementaryView.self,
                                 forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
                                 withReuseIdentifier: "header")
         collectionView.backgroundColor = .clear
@@ -111,8 +113,7 @@ final class TrackersViewController: UIViewController {
         setupSelfValues()
         setupViews()
         addNavItems()
-        trackerCollectionView.delegate = self
-        trackerCollectionView.dataSource = self
+        setupDelegates()
     }
     
     override func viewWillAppear(_ animated: Bool) {
