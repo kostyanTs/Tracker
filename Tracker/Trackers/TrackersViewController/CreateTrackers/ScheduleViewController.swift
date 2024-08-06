@@ -88,10 +88,11 @@ final class ScheduleViewController: UIViewController {
         }
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 75),
+            tableView.bottomAnchor.constraint(equalTo: readyButton.topAnchor, constant: -47),
             
             underlineView.widthAnchor.constraint(equalTo: tableView.widthAnchor),
             underlineView.heightAnchor.constraint(equalToConstant: 0.5),
@@ -112,7 +113,7 @@ final class ScheduleViewController: UIViewController {
     }
     
     private func checkTableSwitches() {
-        for i in 0...7 {
+        for i in 0..<7 {
             guard let cell = tableView.cellForRow(at: IndexPath(row: i, section: 0)) as? ScheduleTableViewcell else { return }
             let day = WeekDay(rawValue: i)
             if cell.tableSwitch.isOn {
@@ -154,5 +155,9 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
   
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return nil
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return tableView.frame.height / 7
     }
 }

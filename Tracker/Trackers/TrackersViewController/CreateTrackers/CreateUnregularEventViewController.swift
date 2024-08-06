@@ -1,5 +1,5 @@
 //
-//  CreateRegularViewController.swift
+//  CreateUnregularEventViewController.swift
 //  Tracker
 //
 //  Created by Konstantin on 11.07.2024.
@@ -7,17 +7,17 @@
 
 import UIKit
 
-protocol CreateHabitDelegate: AnyObject {
-    func reloadTrackersHabitCollectionView()
+protocol CreateUnregularEventDelegate: AnyObject {
+    func reloadTrackersUnregularCollectionView()
 }
 
-final class CreateHabitViewController: UIViewController {
+final class CreateUnregularEventViewController: UIViewController {
     
     private let dataHolder = DataHolder.shared
     private let colorItems = CollectionsItems.colors
     private let emojiItems = CollectionsItems.emojies
     
-    weak var delegate: CreateHabitDelegate?
+    weak var delegate: CreateUnregularEventDelegate?
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -84,7 +84,6 @@ final class CreateHabitViewController: UIViewController {
         button.backgroundColor = .ypGrey
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.isEnabled = false
         return button
     }()
     
@@ -96,22 +95,9 @@ final class CreateHabitViewController: UIViewController {
         button.backgroundColor = .createTrackersTextField
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         return button
     }()
-    
-    private lazy var scheduleButton: CustomButton = {
-        var button = CustomButton()
-        button.buttonTapHandler = { [weak self] in
-            self?.didTapSceduleButton()
-        }
-        button.backgroundColor = .createTrackersTextField
-        button.layer.masksToBounds = true
-        button.layer.cornerRadius = 16
-        button.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-        return button
-    }()
-    
+  
     private let colorCollectionView: SelfSizingCollectionView = {
         let collectionView = SelfSizingCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: ColorCollectionViewCell.identifier)
@@ -139,12 +125,6 @@ final class CreateHabitViewController: UIViewController {
         label.font = .systemFont(ofSize: 19, weight: .bold)
         return label
     }()
-    
-    private lazy var lineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .ypGrey
-        return view
-    }()
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -157,7 +137,7 @@ final class CreateHabitViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setEnabledForCreateButton()
-        configButtons()
+        configCategoryButon()
     }
 
     private func setupNavBar() {
@@ -178,9 +158,8 @@ final class CreateHabitViewController: UIViewController {
         scrollView.addSubview(contentView)
         contentView.addSubview(trackerTitleView)
         trackerTitleView.addSubview(trackerTitleTextField)
-        [categoryButton, scheduleButton,
-         createButton, cancelButton,
-         lineView, colorCollectionView,
+        [categoryButton, cancelButton,
+         createButton, colorCollectionView,
          emojiCollectionView, emojiTitle,
          colorTitle].forEach{
             contentView.addSubview($0)
@@ -218,16 +197,6 @@ final class CreateHabitViewController: UIViewController {
             categoryButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             categoryButton.heightAnchor.constraint(equalToConstant: 75),
             
-            scheduleButton.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 0),
-            scheduleButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            scheduleButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            scheduleButton.heightAnchor.constraint(equalTo: categoryButton.heightAnchor, multiplier: 1),
-            
-            lineView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 0),
-            lineView.leadingAnchor.constraint(equalTo: categoryButton.leadingAnchor, constant: 15.95),
-            lineView.trailingAnchor.constraint(equalTo: categoryButton.trailingAnchor, constant: -15.95),
-            lineView.heightAnchor.constraint(equalToConstant: 0.5),
-            
             cancelButton.widthAnchor.constraint(equalTo: createButton.widthAnchor),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
             cancelButton.trailingAnchor.constraint(equalTo: createButton.leadingAnchor, constant: -8),
@@ -241,7 +210,7 @@ final class CreateHabitViewController: UIViewController {
             
             emojiCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 18),
             emojiCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -18),
-            emojiCollectionView.topAnchor.constraint(equalTo: scheduleButton.bottomAnchor, constant: 74),
+            emojiCollectionView.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 74),
             emojiCollectionView.heightAnchor.constraint(greaterThanOrEqualToConstant: 52),
             
             emojiTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
@@ -257,22 +226,8 @@ final class CreateHabitViewController: UIViewController {
         ])
     }
     
-    private func addScheduleTitle() -> String? {
-        var scheduleTitle: String = ""
-        var counter = 0
-        if dataHolder.scheduleForIndexPath != nil {
-            dataHolder.scheduleForIndexPath?.forEach{scheduleTitle.append("\($0!.keyValue), "); counter += 1}
-        }
-        if scheduleTitle.isEmpty {
-            return nil
-        }
-        if counter == 7 {
-            return "Каждый день"
-        } else {
-            scheduleTitle.removeLast()
-            scheduleTitle.removeLast()
-        }
-        return scheduleTitle
+    private func configCategoryButon() {
+        categoryButton.configure(title: "Категория", categoryTitle: dataHolder.categoryForIndexPath)
     }
     
     private func setEnabledForCreateButton() {
@@ -281,16 +236,9 @@ final class CreateHabitViewController: UIViewController {
         }
     }
     
-    private func configButtons() {
-        let scheduleTitle = addScheduleTitle()
-        categoryButton.configure(title: "Категория", categoryTitle: dataHolder.categoryForIndexPath)
-        scheduleButton.configure(title: "Расписание", categoryTitle: scheduleTitle)
-    }
-    
     private func isButtonEnabled() -> Bool {
         if (trackerTitleTextField.text == nil) || 
             dataHolder.categoryForIndexPath == nil ||
-            dataHolder.scheduleForIndexPath == nil ||
             dataHolder.colorForIndexPath == nil ||
             dataHolder.emojiForIndexPath == nil
         { return false }
@@ -314,26 +262,20 @@ final class CreateHabitViewController: UIViewController {
     private func didTapCreateButton() {
         if (trackerTitleTextField.text == nil) || 
             dataHolder.categoryForIndexPath == nil ||
-            dataHolder.scheduleForIndexPath == nil ||
             dataHolder.colorForIndexPath == nil ||
             dataHolder.emojiForIndexPath == nil
         { return }
         guard let nameTracker = trackerTitleTextField.text,
               let color = dataHolder.colorForIndexPath,
-              let emoji = dataHolder.emojiForIndexPath,
-              let schedule = dataHolder.scheduleForIndexPath
+              let emoji = dataHolder.emojiForIndexPath
         else { return }
-        guard let dateWithouTime = Date().getDateWithoutTime() else { return }
-        let tracker = Tracker(id: dataHolder.counterForId,
+        let tracker = Tracker(id: UUID(),
                               name: nameTracker,
                               color: color,
                               emoji: emoji,
-                              schedule: schedule,
-                              createdDate: dateWithouTime)
-        dataHolder.counterForId += 1
-        dataHolder.addTrackerToCategories(tracker: tracker, titleCategory: dataHolder.categoryForIndexPath)
+                              schedule: nil)
         dataHolder.deleteValuesForIndexPath()
-        delegate?.reloadTrackersHabitCollectionView()
+        delegate?.reloadTrackersUnregularCollectionView()
         dismiss(animated: true)
     }
     
@@ -350,7 +292,7 @@ final class CreateHabitViewController: UIViewController {
     }
 }
 
-extension CreateHabitViewController: UICollectionViewDelegate {
+extension CreateUnregularEventViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == self.colorCollectionView {
             guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCollectionViewCell else { return }
@@ -386,7 +328,7 @@ extension CreateHabitViewController: UICollectionViewDelegate {
     }
 }
 
-extension CreateHabitViewController: UICollectionViewDataSource {
+extension CreateUnregularEventViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == self.colorCollectionView {
             return colorItems.count
@@ -397,24 +339,18 @@ extension CreateHabitViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if collectionView == self.colorCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: ColorCollectionViewCell.identifier,
-                for: indexPath
-            ) as? ColorCollectionViewCell else { return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.identifier, for: indexPath) as? ColorCollectionViewCell else { return UICollectionViewCell()}
             cell.colorView.backgroundColor = colorItems[indexPath.row]
             return cell
         } else {
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: EmojiCollectionViewCell.identifier,
-                for: indexPath
-            ) as? EmojiCollectionViewCell else { return UICollectionViewCell()}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.identifier, for: indexPath) as? EmojiCollectionViewCell else { return UICollectionViewCell()}
             cell.emojiView.text = emojiItems[indexPath.row]
             return cell
         }
     }
 }
 
-extension CreateHabitViewController: UICollectionViewDelegateFlowLayout {
+extension CreateUnregularEventViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 0
     }
@@ -424,7 +360,7 @@ extension CreateHabitViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-extension CreateHabitViewController: UITextFieldDelegate {
+extension CreateUnregularEventViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true

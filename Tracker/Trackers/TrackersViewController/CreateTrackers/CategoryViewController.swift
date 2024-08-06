@@ -10,6 +10,9 @@ import UIKit
 final class CategoryViewController: UIViewController {
     
     private let dataHolder = DataHolder.shared
+    private let trackerCategoryStore = TrackerCategoryStore()
+    
+    private var categories: [String]? = nil
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -78,6 +81,8 @@ final class CategoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.categories = trackerCategoryStore.loadOnlyTitleCategories()
+        print(self.categories)
         tableView.reloadData()
         checkCategories()
         dataHolder.deleteCategoryForIndexPath()
@@ -130,7 +135,7 @@ final class CategoryViewController: UIViewController {
     }
     
     private func checkCategories() {
-        let isHidden = dataHolder.categories != nil
+        let isHidden = self.categories != nil
         nilCenterLabel.isHidden = isHidden
         nilCenterImageView.isHidden = isHidden
     }
@@ -149,7 +154,7 @@ final class CategoryViewController: UIViewController {
 extension CategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let categories = dataHolder.categories else { return 0 }
+        guard let categories = self.categories else { return 0 }
         return categories.count
     }
     
@@ -159,8 +164,8 @@ extension CategoryViewController: UITableViewDataSource {
             for: indexPath
         ) as? CategoryTableViewCell else { return UITableViewCell()}
         cell.backgroundColor = .createTrackersTextField
-        guard let categories = dataHolder.categories else { return UITableViewCell() }
-        cell.categoryTitle.text = categories[indexPath.row].title
+        guard let categories = self.categories else { return UITableViewCell() }
+        cell.categoryTitle.text = categories[indexPath.row]
         return cell
     }
 }
@@ -168,11 +173,11 @@ extension CategoryViewController: UITableViewDataSource {
 extension CategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let categories = dataHolder.categories else { return }
+        guard let categories = self.categories else { return }
         tableView.cellForRow(at: indexPath)?.editingAccessoryType = .checkmark
         tableView.cellForRow(at: indexPath)?.setSelected(true, animated: true)
         tableView.cellForRow(at: indexPath)?.setEditing(true, animated: true)
-        dataHolder.categoryForIndexPath = categories[indexPath.row].title
+        dataHolder.categoryForIndexPath = categories[indexPath.row]
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
