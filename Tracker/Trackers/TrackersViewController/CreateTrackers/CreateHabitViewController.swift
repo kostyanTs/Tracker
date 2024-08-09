@@ -309,7 +309,6 @@ final class CreateHabitViewController: UIViewController {
         }
         return scheduleString
     }
-
     
     @objc func textFieldDidChanged() {
         if isButtonEnabled() {

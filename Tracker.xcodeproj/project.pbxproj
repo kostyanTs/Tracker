@@ -40,11 +40,11 @@
 		3577A62F2C52420200A05395 /* TrackersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A62E2C52420200A05395 /* TrackersCollectionViewCell.swift */; };
 		3577A6342C53C84400A05395 /* SupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A6332C53C84400A05395 /* SupplementaryView.swift */; };
 		3577A6372C55A61800A05395 /* Date+extencion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A6362C55A61800A05395 /* Date+extencion.swift */; };
-		3577A63C2C5B9F6F00A05395 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3577A63A2C5B9F6F00A05395 /* Tracker.xcdatamodeld */; };
 		3577A6832C5CCD1C00A05395 /* TrackerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A6822C5CCD1C00A05395 /* TrackerStore.swift */; };
 		3577A6852C5CD05300A05395 /* String+extencion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A6842C5CD05300A05395 /* String+extencion.swift */; };
 		3577A6872C5CEC3800A05395 /* TrackerCategoryStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A6862C5CEC3800A05395 /* TrackerCategoryStore.swift */; };
 		3577A6892C5CEEAF00A05395 /* TrackerRecordStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3577A6882C5CEEAF00A05395 /* TrackerRecordStore.swift */; };
+		3577A6952C663C9100A05395 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3577A6932C663C9100A05395 /* Tracker.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,11 +102,11 @@
 		3577A62E2C52420200A05395 /* TrackersCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersCollectionViewCell.swift; sourceTree = "<group>"; };
 		3577A6332C53C84400A05395 /* SupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupplementaryView.swift; sourceTree = "<group>"; };
 		3577A6362C55A61800A05395 /* Date+extencion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extencion.swift"; sourceTree = "<group>"; };
-		3577A63B2C5B9F6F00A05395 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
 		3577A6822C5CCD1C00A05395 /* TrackerStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerStore.swift; sourceTree = "<group>"; };
 		3577A6842C5CD05300A05395 /* String+extencion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extencion.swift"; sourceTree = "<group>"; };
 		3577A6862C5CEC3800A05395 /* TrackerCategoryStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryStore.swift; sourceTree = "<group>"; };
 		3577A6882C5CEEAF00A05395 /* TrackerRecordStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordStore.swift; sourceTree = "<group>"; };
+		3577A6942C663C9100A05395 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,7 +165,7 @@
 				350353A42C32B0A200C8293D /* Assets.xcassets */,
 				350353A62C32B0A200C8293D /* LaunchScreen.storyboard */,
 				350353A92C32B0A200C8293D /* Info.plist */,
-				3577A63A2C5B9F6F00A05395 /* Tracker.xcdatamodeld */,
+				3577A6932C663C9100A05395 /* Tracker.xcdatamodeld */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -521,8 +521,8 @@
 				350353D02C3512AF00C8293D /* StatisticsViewController.swift in Sources */,
 				3577A6052C452A6D00A05395 /* CategoryViewController.swift in Sources */,
 				350353CE2C35129400C8293D /* TabBarViewController.swift in Sources */,
-				3577A63C2C5B9F6F00A05395 /* Tracker.xcdatamodeld in Sources */,
 				3503539E2C32B0A100C8293D /* SceneDelegate.swift in Sources */,
+				3577A6952C663C9100A05395 /* Tracker.xcdatamodeld in Sources */,
 				3577A6072C453CB700A05395 /* CustomButton.swift in Sources */,
 				3577A6372C55A61800A05395 /* Date+extencion.swift in Sources */,
 				3577A6112C49213300A05395 /* DataHolder.swift in Sources */,
@@ -877,12 +877,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		3577A63A2C5B9F6F00A05395 /* Tracker.xcdatamodeld */ = {
+		3577A6932C663C9100A05395 /* Tracker.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				3577A63B2C5B9F6F00A05395 /* Tracker.xcdatamodel */,
+				3577A6942C663C9100A05395 /* Tracker.xcdatamodel */,
 			);
-			currentVersion = 3577A63B2C5B9F6F00A05395 /* Tracker.xcdatamodel */;
+			currentVersion = 3577A6942C663C9100A05395 /* Tracker.xcdatamodel */;
 			name = Tracker.xcdatamodeld;
 			path = /Users/strong.coy/Desktop/Tracker/Tracker/Tracker.xcdatamodeld;
 			sourceTree = "<group>";

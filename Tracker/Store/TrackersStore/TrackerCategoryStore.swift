@@ -17,18 +17,17 @@ final class TrackerCategoryStore: NSObject {
     private let context: NSManagedObjectContext
     weak var delegate: TrackerCategoryStoreDelegate?
     private var insertedIndexes: IndexPath?
-    private var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData>!
+    
+    init(context: NSManagedObjectContext) {
+        self.context = context
+    }
     
     convenience override init() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        try! self.init(context: context)
+        self.init(context: context)
     }
-
-    init(context: NSManagedObjectContext) throws {
-        
-        self.context = context
-        super.init()
-
+    
+    private lazy var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData> = {
         let fetchRequest = TrackerCategoryCoreData.fetchRequest()
         fetchRequest.sortDescriptors = [
             NSSortDescriptor(keyPath: \TrackerCategoryCoreData.title, ascending: true)
@@ -41,8 +40,9 @@ final class TrackerCategoryStore: NSObject {
         )
         controller.delegate = self
         self.fetchedResultsController = controller
-        try controller.performFetch()
-    }
+        try? controller.performFetch()
+        return controller
+    }()
     
     func saveTrackerCategory(categoryTitle: String, tracker: Tracker) {
         let trackerCoreData = TrackerCoreData(context: context)
@@ -90,7 +90,6 @@ final class TrackerCategoryStore: NSObject {
         print(trackerCoreData.count)
         trackerCoreData.forEach({ tracker in
             let categoryTitle = tracker.category?.title ?? ""
-            let color = tracker.color?.color()
             guard let data = tracker.schedule else { return }
             guard let id = tracker.id,
                   let name = tracker.name,

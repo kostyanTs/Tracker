@@ -455,6 +455,4 @@ extension TrackersViewController: TrackerCategoryStoreDelegate {
     func updateTrackers(indexPath: IndexPath) {
         trackerCollectionView.reloadData()
     }
-    
-    
 }
