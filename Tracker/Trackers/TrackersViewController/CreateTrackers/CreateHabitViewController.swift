@@ -16,6 +16,7 @@ final class CreateHabitViewController: UIViewController {
     private let dataHolder = DataHolder.shared
     private let colorItems = CollectionsItems.colors
     private let emojiItems = CollectionsItems.emojies
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     weak var delegate: CreateHabitDelegate?
     
@@ -298,6 +299,16 @@ final class CreateHabitViewController: UIViewController {
         return true
     }
     
+    private func makeSchedule(schedule: [WeekDay?]?) -> [String]? {
+        var scheduleString: [String] = []
+        let schedule = schedule ?? []
+        for weekday in schedule {
+            guard let weekday = weekday else { return nil }
+            scheduleString.append(weekday.dayValue)
+        }
+        return scheduleString
+    }
+    
     @objc func textFieldDidChanged() {
         if isButtonEnabled() {
             createButton.isEnabled = true
@@ -323,15 +334,13 @@ final class CreateHabitViewController: UIViewController {
               let emoji = dataHolder.emojiForIndexPath,
               let schedule = dataHolder.scheduleForIndexPath
         else { return }
-        guard let dateWithouTime = Date().getDateWithoutTime() else { return }
-        let tracker = Tracker(id: dataHolder.counterForId,
+        let tracker = Tracker(id: UUID(),
                               name: nameTracker,
                               color: color,
                               emoji: emoji,
-                              schedule: schedule,
-                              createdDate: dateWithouTime)
-        dataHolder.counterForId += 1
-        dataHolder.addTrackerToCategories(tracker: tracker, titleCategory: dataHolder.categoryForIndexPath)
+                              schedule: schedule)
+        guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
+        trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
         dataHolder.deleteValuesForIndexPath()
         delegate?.reloadTrackersHabitCollectionView()
         dismiss(animated: true)
@@ -364,7 +373,7 @@ extension CreateHabitViewController: UICollectionViewDelegate {
             }
         } else {
             guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else { return }
-            cell.containerView.backgroundColor = .ypGrey
+            cell.containerView.backgroundColor = .ypLightGrey
             cell.containerView.layer.masksToBounds = true
             cell.containerView.layer.cornerRadius = 16
             dataHolder.emojiForIndexPath = emojiItems[indexPath.row]

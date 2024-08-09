@@ -52,17 +52,18 @@ final class ScheduleTableViewcell: UITableViewCell {
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 0),
             containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 0),
             containerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 0),
-            containerView.heightAnchor.constraint(equalToConstant: 75),
+//            containerView.heightAnchor.constraint(equalToConstant: 75),
             
             scheduleTitle.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16),
             scheduleTitle.heightAnchor.constraint(equalToConstant: 22),
             scheduleTitle.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             scheduleTitle.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -41),
             
-            tableSwitch.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 22),
+//            tableSwitch.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 22),
             tableSwitch.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 276),
             tableSwitch.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16),
-            tableSwitch.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -22)
+//            tableSwitch.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -22),
+            tableSwitch.centerYAnchor.constraint(equalTo: containerView.centerYAnchor)
         ])
     }
     

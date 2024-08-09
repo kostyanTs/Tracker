@@ -10,6 +10,7 @@ import UIKit
 final class CreateCategoryViewController: UIViewController {
     
     private let dataHolder = DataHolder.shared
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -97,12 +98,13 @@ final class CreateCategoryViewController: UIViewController {
     @objc
     private func didTapReadyButton() {
         guard let category = categoryTitleTextField.text else { return }
-        let trackerCategory = TrackerCategory(title: category, trackers: [])
-        if dataHolder.categories == nil {
-            dataHolder.categories = [trackerCategory]
-        } else {
-            dataHolder.categories?.append(trackerCategory)
-        }
+//        let trackerCategory = TrackerCategory(title: category, trackers: [])
+//        if dataHolder.categories == nil {
+//            dataHolder.categories = [trackerCategory]
+//        } else {
+//            dataHolder.categories?.append(trackerCategory)
+//        }
+        trackerCategoryStore.saveOnlyTitleCategory(categoryTitle: category)
         navigationController?.popViewController(animated: true)
     }
     
