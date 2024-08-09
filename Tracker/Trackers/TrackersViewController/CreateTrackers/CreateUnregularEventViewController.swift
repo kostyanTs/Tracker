@@ -16,6 +16,7 @@ final class CreateUnregularEventViewController: UIViewController {
     private let dataHolder = DataHolder.shared
     private let colorItems = CollectionsItems.colors
     private let emojiItems = CollectionsItems.emojies
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     weak var delegate: CreateUnregularEventDelegate?
     
@@ -274,6 +275,8 @@ final class CreateUnregularEventViewController: UIViewController {
                               color: color,
                               emoji: emoji,
                               schedule: nil)
+        guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
+        trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
         dataHolder.deleteValuesForIndexPath()
         delegate?.reloadTrackersUnregularCollectionView()
         dismiss(animated: true)
@@ -306,7 +309,7 @@ extension CreateUnregularEventViewController: UICollectionViewDelegate {
             }
         } else {
             guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else { return }
-            cell.containerView.backgroundColor = .ypGrey
+            cell.containerView.backgroundColor = .ypLightGrey
             cell.containerView.layer.masksToBounds = true
             cell.containerView.layer.cornerRadius = 16
             dataHolder.emojiForIndexPath = emojiItems[indexPath.row]

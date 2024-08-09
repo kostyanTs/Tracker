@@ -236,7 +236,7 @@ final class TrackersViewController: UIViewController {
                 var newTrackers: [Tracker] = []
                 for i in 0..<category.trackers.count {
                     let tracker = category.trackers[i]
-                    guard let weekdays = tracker.schedule else { return nil }
+                    guard let weekdays = tracker.schedule else { continue }
                     for i in 0..<weekdays.count {
                         let weekday = weekdays[i]
                         guard let weekday = weekday else { return nil }

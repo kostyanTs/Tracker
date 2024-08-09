@@ -16,7 +16,6 @@ final class CreateHabitViewController: UIViewController {
     private let dataHolder = DataHolder.shared
     private let colorItems = CollectionsItems.colors
     private let emojiItems = CollectionsItems.emojies
-    
     private let trackerCategoryStore = TrackerCategoryStore()
     
     weak var delegate: CreateHabitDelegate?
@@ -342,7 +341,6 @@ final class CreateHabitViewController: UIViewController {
                               schedule: schedule)
         guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
         trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
-//        dataHolder.addTrackerToCategories(tracker: tracker, titleCategory: dataHolder.categoryForIndexPath)
         dataHolder.deleteValuesForIndexPath()
         delegate?.reloadTrackersHabitCollectionView()
         dismiss(animated: true)
@@ -375,7 +373,7 @@ extension CreateHabitViewController: UICollectionViewDelegate {
             }
         } else {
             guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else { return }
-            cell.containerView.backgroundColor = .ypGrey
+            cell.containerView.backgroundColor = .ypLightGrey
             cell.containerView.layer.masksToBounds = true
             cell.containerView.layer.cornerRadius = 16
             dataHolder.emojiForIndexPath = emojiItems[indexPath.row]
