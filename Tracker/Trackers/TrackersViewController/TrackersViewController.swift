@@ -147,6 +147,7 @@ final class TrackersViewController: UIViewController {
     private func setupDelegates() {
         trackerCollectionView.delegate = self
         trackerCollectionView.dataSource = self
+        trackerCategoryStore.delegate = self
     }
     
     private func addNavItems() {
@@ -259,7 +260,6 @@ final class TrackersViewController: UIViewController {
         cell.mainView.backgroundColor = categories[indexPath.section].trackers[indexPath.row].color
         cell.emojiView.text = categories[indexPath.section].trackers[indexPath.row].emoji
         cell.titleLabel.text = categories[indexPath.section].trackers[indexPath.row].name
-        cell.delegate = self
         let currentDate = datePicker.date.getDateWithoutTime()
         let trackerId = categories[indexPath.section].trackers[indexPath.row].id
         let complitedDates = complitedTrackers?.filter{$0.id.hashValue == trackerId.hashValue} ?? []
@@ -312,9 +312,9 @@ final class TrackersViewController: UIViewController {
     }
 }
 
-extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension TrackersViewController: UICollectionViewDataSource {
     
-    func collectionView(_ collectionView: UICollectionView, 
+    func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath
     ) -> UICollectionReusableView {
@@ -345,17 +345,35 @@ extension TrackersViewController: UICollectionViewDataSource, UICollectionViewDe
         return categories[section].trackers.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, 
-                        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: TrackersCollectionViewCell.identifier,
             for: indexPath
         ) as? TrackersCollectionViewCell else {
             return UICollectionViewCell()
         }
+        cell.delegate = self
+        cell.layer.cornerRadius = 16
+        cell.layer.masksToBounds = true
         configCell(cell: cell, with: indexPath)
         return cell
+    }
+}
+
+extension TrackersViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions in
+            let fixed = UIAction(title: "Закрепить") { [weak self] _ in
+                // TODO: make fixed category
+            }
+            let edit = UIAction(title: "Редактировать") { [weak self] _ in
+                // TODO: Make EditViewController
+            }
+            let delete = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+                // TODO: add delete func to TrackerCategoryStore
+            }
+            return UIMenu(title: "", children: [fixed, edit, delete])
+        }
     }
 }
 
@@ -431,4 +449,12 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
         let countComplitedDates = complitedDates.count
         completion(tracker, countComplitedDates, cell.isDone)
     }
+}
+
+extension TrackersViewController: TrackerCategoryStoreDelegate {
+    func updateTrackers(indexPath: IndexPath) {
+        trackerCollectionView.reloadData()
+    }
+    
+    
 }

@@ -8,19 +8,42 @@
 import UIKit
 import CoreData
 
+protocol TrackerCategoryStoreDelegate: AnyObject {
+    func updateTrackers(indexPath: IndexPath)
+}
+
 final class TrackerCategoryStore: NSObject {
     
     private let context: NSManagedObjectContext
-
+    weak var delegate: TrackerCategoryStoreDelegate?
+    private var insertedIndexes: IndexPath?
+    private var fetchedResultsController: NSFetchedResultsController<TrackerCategoryCoreData>!
+    
     convenience override init() {
         let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        self.init(context: context)
+        try! self.init(context: context)
     }
 
-    init(context: NSManagedObjectContext) {
+    init(context: NSManagedObjectContext) throws {
+        
         self.context = context
-    }
+        super.init()
 
+        let fetchRequest = TrackerCategoryCoreData.fetchRequest()
+        fetchRequest.sortDescriptors = [
+            NSSortDescriptor(keyPath: \TrackerCategoryCoreData.title, ascending: true)
+        ]
+        let controller = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: context,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        controller.delegate = self
+        self.fetchedResultsController = controller
+        try controller.performFetch()
+    }
+    
     func saveTrackerCategory(categoryTitle: String, tracker: Tracker) {
         let trackerCoreData = TrackerCoreData(context: context)
         trackerCoreData.id = tracker.id
@@ -114,6 +137,30 @@ final class TrackerCategoryStore: NSObject {
         } catch {
             print("[TrackerCategoryStore]: error to save TrackerCategory in CoreData")
             context.rollback()
+        }
+    }
+}
+
+extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
+    func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        insertedIndexes = IndexPath()
+    }
+    
+    func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+        if let indexPath = insertedIndexes {
+            delegate?.updateTrackers(indexPath: indexPath)
+        }
+        insertedIndexes = nil
+    }
+    
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        switch type {
+        case .insert:
+            if let indexPath = newIndexPath {
+                insertedIndexes = indexPath
+            }
+        default:
+            break
         }
     }
 }

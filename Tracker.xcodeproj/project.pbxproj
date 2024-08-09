@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		3503539C2C32B0A100C8293D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3503539B2C32B0A100C8293D /* AppDelegate.swift */; };
 		3503539E2C32B0A100C8293D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3503539D2C32B0A100C8293D /* SceneDelegate.swift */; };
-		350353A02C32B0A100C8293D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3503539F2C32B0A100C8293D /* ViewController.swift */; };
 		350353A52C32B0A200C8293D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 350353A42C32B0A200C8293D /* Assets.xcassets */; };
 		350353A82C32B0A200C8293D /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 350353A72C32B0A200C8293D /* Base */; };
 		350353B32C32B0A200C8293D /* TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350353B22C32B0A200C8293D /* TrackerTests.swift */; };
@@ -69,7 +68,6 @@
 		350353982C32B0A100C8293D /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3503539B2C32B0A100C8293D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3503539D2C32B0A100C8293D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3503539F2C32B0A100C8293D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		350353A42C32B0A200C8293D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		350353A72C32B0A200C8293D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		350353A92C32B0A200C8293D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -164,7 +162,6 @@
 				355B55332C3FC3030073A169 /* Trackers */,
 				3503539B2C32B0A100C8293D /* AppDelegate.swift */,
 				3503539D2C32B0A100C8293D /* SceneDelegate.swift */,
-				3503539F2C32B0A100C8293D /* ViewController.swift */,
 				350353A42C32B0A200C8293D /* Assets.xcassets */,
 				350353A62C32B0A200C8293D /* LaunchScreen.storyboard */,
 				350353A92C32B0A200C8293D /* Info.plist */,
@@ -506,7 +503,6 @@
 				355B55362C3FC37C0073A169 /* CreateHabitViewController.swift in Sources */,
 				355DC5242C3E9924000BC540 /* TrackerCategory.swift in Sources */,
 				355B55302C3FB2C90073A169 /* CreateTrackersViewController.swift in Sources */,
-				350353A02C32B0A100C8293D /* ViewController.swift in Sources */,
 				350353D42C3518AD00C8293D /* UIColor+extencion.swift in Sources */,
 				3577A6342C53C84400A05395 /* SupplementaryView.swift in Sources */,
 				3577A6212C4FAED900A05395 /* ColorCollectionViewCell.swift in Sources */,

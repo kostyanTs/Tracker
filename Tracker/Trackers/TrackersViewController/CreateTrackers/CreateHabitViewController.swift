@@ -17,7 +17,7 @@ final class CreateHabitViewController: UIViewController {
     private let colorItems = CollectionsItems.colors
     private let emojiItems = CollectionsItems.emojies
     
-    private let trackerCategoryStore: TrackerCategoryStore = TrackerCategoryStore()
+    private let trackerCategoryStore = TrackerCategoryStore()
     
     weak var delegate: CreateHabitDelegate?
     

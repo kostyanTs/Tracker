@@ -100,6 +100,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupViews() {
+        
         [containerView].forEach{
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
