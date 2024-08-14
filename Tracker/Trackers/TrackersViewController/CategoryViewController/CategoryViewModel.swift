@@ -45,7 +45,8 @@ final class CategoryViewModel {
         dataHolder.categoryForIndexPath = categoryTitle
     }
     
-    func updateCategories() {
+    func viewWillApear() {
         self.categories = getCategoriesFromStore()
+        deleteCategoryForIndexPath()
     }
 }

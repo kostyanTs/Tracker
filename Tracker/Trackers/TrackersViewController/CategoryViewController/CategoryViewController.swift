@@ -83,8 +83,7 @@ final class CategoryViewController: UIViewController {
             self.tableView.reloadData()
         }
         checkCategories()
-        viewModel.deleteCategoryForIndexPath()
-        viewModel.updateCategories()
+        viewModel.viewWillApear()
         tableView.reloadData()
     }
     
