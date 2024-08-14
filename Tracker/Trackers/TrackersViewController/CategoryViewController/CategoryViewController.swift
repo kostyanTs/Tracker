@@ -9,10 +9,7 @@ import UIKit
 
 final class CategoryViewController: UIViewController {
     
-    private let dataHolder = DataHolder.shared
-    private let trackerCategoryStore = TrackerCategoryStore()
-    
-    private var categories: [String]? = nil
+    private var viewModel: CategoryViewModel = CategoryViewModel()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -51,6 +48,12 @@ final class CategoryViewController: UIViewController {
         return tableView
     }()
     
+    private let lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .ypWhiteDay
+        return view
+    }()
+    
     private lazy var addCategoryButton: UIButton = {
         let button = UIButton()
         button.addTarget(self, action: #selector(Self.didTapAddCategoryButton), for: .touchUpInside)
@@ -64,12 +67,6 @@ final class CategoryViewController: UIViewController {
         return button
     }()
     
-    private let lineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .ypWhiteDay
-        return view
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhiteDay
@@ -81,11 +78,14 @@ final class CategoryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.categories = trackerCategoryStore.loadOnlyTitleCategories()
-        print(self.categories)
-        tableView.reloadData()
+        viewModel.categoriesBinding = { [weak self] _ in
+            guard let self = self else { return }
+            self.tableView.reloadData()
+        }
         checkCategories()
-        dataHolder.deleteCategoryForIndexPath()
+        viewModel.deleteCategoryForIndexPath()
+        viewModel.updateCategories()
+        tableView.reloadData()
     }
     
     private func setupDelegates() {
@@ -100,8 +100,9 @@ final class CategoryViewController: UIViewController {
     
     private func setupViews() {
         [nilCenterImageView, nilCenterLabel,
-         tableView, addCategoryButton,
-         lineView].forEach{
+         tableView,
+         lineView,
+         addCategoryButton].forEach{
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -135,7 +136,7 @@ final class CategoryViewController: UIViewController {
     }
     
     private func checkCategories() {
-        let isHidden = self.categories != nil
+        let isHidden = !viewModel.categories.isEmpty
         nilCenterLabel.isHidden = isHidden
         nilCenterImageView.isHidden = isHidden
     }
@@ -143,7 +144,7 @@ final class CategoryViewController: UIViewController {
     @objc
     func didTapAddCategoryButton() {
         let createCategoryViewController = CreateCategoryViewController()
-        if dataHolder.categoryForIndexPath == nil {
+        if viewModel.isCategoryForIndexPathNil() {
             navigationController?.pushViewController(createCategoryViewController, animated: true)
         } else {
             navigationController?.popViewController(animated: true)
@@ -154,8 +155,7 @@ final class CategoryViewController: UIViewController {
 extension CategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let categories = self.categories else { return 0 }
-        return categories.count
+        return viewModel.categories.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -164,8 +164,7 @@ extension CategoryViewController: UITableViewDataSource {
             for: indexPath
         ) as? CategoryTableViewCell else { return UITableViewCell()}
         cell.backgroundColor = .createTrackersTextField
-        guard let categories = self.categories else { return UITableViewCell() }
-        cell.categoryTitle.text = categories[indexPath.row]
+        cell.categoryTitle.text = viewModel.categories[indexPath.row]
         return cell
     }
 }
@@ -173,11 +172,11 @@ extension CategoryViewController: UITableViewDataSource {
 extension CategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let categories = self.categories else { return }
         tableView.cellForRow(at: indexPath)?.editingAccessoryType = .checkmark
         tableView.cellForRow(at: indexPath)?.setSelected(true, animated: true)
         tableView.cellForRow(at: indexPath)?.setEditing(true, animated: true)
-        dataHolder.categoryForIndexPath = categories[indexPath.row]
+        viewModel.addCategoryForIndexPath(categoryTitle: viewModel.categories[indexPath.row])
+        
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
@@ -185,7 +184,7 @@ extension CategoryViewController: UITableViewDelegate {
         if cell?.isSelected == true {
             tableView.deselectRow(at: indexPath, animated: true)
             cell?.editingAccessoryType = .none
-            dataHolder.categoryForIndexPath = nil
+            viewModel.deleteCategoryForIndexPath()
             return nil
         } else {
             return indexPath

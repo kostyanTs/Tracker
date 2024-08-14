@@ -8,7 +8,7 @@
 import UIKit
 
 enum CollectionsItems {
-    static let colors: [UIColor] = [.red, .cl2, .cl3, .cl4, .cl5, .cl6,
+    static let colors: [UIColor] = [.cl1, .cl2, .cl3, .cl4, .cl5, .cl6,
                              .cl7, .cl8, .cl9, .cl10, .cl11, .cl12,
                              .cl13, .cl14, .cl15, .cl16, .cl17, .cl18]
     

@@ -128,6 +128,9 @@ final class TrackerCategoryStore: NSObject {
         return trackerCategories
     }
     
+    func deleteCategories() {
+        //TODO: make delete func
+    }
     
     private func saveTrackerCategory(){
         do{
