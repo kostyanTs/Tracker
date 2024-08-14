@@ -12,9 +12,7 @@ protocol CreateTrackersDelegate: AnyObject {
 }
 
 final class CreateTrackersViewController: UIViewController {
-    
-    private let dataHolder = DataHolder.shared
-    
+ 
     weak var delegate: CreateTrackersDelegate?
     
     private lazy var titleLabel: UILabel = {
