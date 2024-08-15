@@ -924,7 +924,7 @@
 			);
 			currentVersion = 35C1E51A2C6D5E7100872795 /* Tracker.xcdatamodel */;
 			name = Tracker.xcdatamodeld;
-			path = /Users/strong.coy/Desktop/Tracker/Tracker/Tracker.xcdatamodeld;
+			path = ../Tracker/Tracker/Tracker.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
