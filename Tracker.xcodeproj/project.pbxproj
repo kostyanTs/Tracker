@@ -48,7 +48,7 @@
 		35C1E50F2C6C968700872795 /* ForOnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E50E2C6C968700872795 /* ForOnboardingViewController.swift */; };
 		35C1E5132C6CC49200872795 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5122C6CC49200872795 /* CategoryViewModel.swift */; };
 		35C1E5152C6CF77200872795 /* UserDefaults+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5142C6CF77200872795 /* UserDefaults+extension.swift */; };
-		35C1E51B2C6D5E7100872795 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5192C6D5E7100872795 /* Tracker.xcdatamodeld */; };
+		35C1E5242C6E96FB00872795 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5212C6E956700872795 /* Tracker.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,7 +114,7 @@
 		35C1E50E2C6C968700872795 /* ForOnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForOnboardingViewController.swift; sourceTree = "<group>"; };
 		35C1E5122C6CC49200872795 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		35C1E5142C6CF77200872795 /* UserDefaults+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+extension.swift"; sourceTree = "<group>"; };
-		35C1E51A2C6D5E7100872795 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
+		35C1E5222C6E956700872795 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +165,7 @@
 		3503539A2C32B0A100C8293D /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				35C1E5212C6E956700872795 /* Tracker.xcdatamodeld */,
 				3577A6812C5CCD0900A05395 /* Store */,
 				355DC5202C3E9836000BC540 /* Models */,
 				355B55332C3FC3030073A169 /* Trackers */,
@@ -173,7 +174,6 @@
 				350353A42C32B0A200C8293D /* Assets.xcassets */,
 				350353A62C32B0A200C8293D /* LaunchScreen.storyboard */,
 				350353A92C32B0A200C8293D /* Info.plist */,
-				35C1E5192C6D5E7100872795 /* Tracker.xcdatamodeld */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -564,7 +564,7 @@
 				3577A6072C453CB700A05395 /* CustomButton.swift in Sources */,
 				3577A6372C55A61800A05395 /* Date+extension.swift in Sources */,
 				3577A6112C49213300A05395 /* DataHolder.swift in Sources */,
-				35C1E51B2C6D5E7100872795 /* Tracker.xcdatamodeld in Sources */,
+				35C1E5242C6E96FB00872795 /* Tracker.xcdatamodeld in Sources */,
 				3577A6272C4FB51100A05395 /* CollectionsItems.swift in Sources */,
 				35C1E50F2C6C968700872795 /* ForOnboardingViewController.swift in Sources */,
 				3577A6292C50E5CD00A05395 /* EmojiCollectionViewCell.swift in Sources */,
@@ -917,14 +917,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		35C1E5192C6D5E7100872795 /* Tracker.xcdatamodeld */ = {
+		35C1E5212C6E956700872795 /* Tracker.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				35C1E51A2C6D5E7100872795 /* Tracker.xcdatamodel */,
+				35C1E5222C6E956700872795 /* Tracker.xcdatamodel */,
 			);
-			currentVersion = 35C1E51A2C6D5E7100872795 /* Tracker.xcdatamodel */;
-			name = Tracker.xcdatamodeld;
-			path = ../Tracker/Tracker/Tracker.xcdatamodeld;
+			currentVersion = 35C1E5222C6E956700872795 /* Tracker.xcdatamodel */;
+			path = Tracker.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
