@@ -430,8 +430,8 @@
             filePath = "Tracker/Trackers/TrackersViewController/TrackersViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "252"
-            endingLineNumber = "252"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
             landmarkName = "makeCategoriesForWeeday(categories:forWeekdays:)"
             landmarkType = "7">
          </BreakpointContent>
