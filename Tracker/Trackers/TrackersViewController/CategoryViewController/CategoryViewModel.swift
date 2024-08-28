@@ -7,8 +7,6 @@
 
 import Foundation
 
-typealias Binding<T> = (T) -> Void
-
 final class CategoryViewModel {
     
     private let dataHolder = DataHolder.shared
