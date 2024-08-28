@@ -31,6 +31,38 @@ final class TrackersViewModel {
         )
     }
     
+    func fixTracker(tracker: Tracker) {
+        let categoryTitles = trackerCategoryStore.loadOnlyTitleCategories()
+        if categoryTitles.filter({$0 == "Закрепленные"}).isEmpty {
+            trackerCategoryStore.saveOnlyTitleCategory(categoryTitle: "Закрепленные")
+        }
+        trackerCategoryStore.updateFixTracker(tracker: tracker)
+    }
+    
+    func unpinTracker(tracker: Tracker) {
+        trackerCategoryStore.unpinTracker(tracker: tracker)
+    }
+    
+    func filterCategories(currentDate: Date?) -> String? {
+        let filter = dataHolder.filter
+        if filter == "Все трекеры" {
+            setupCategories(currentDate: currentDate)
+        }
+        if filter == "Трекеры на сегодня" {
+            setupCategories(currentDate: Date())
+        }
+        if filter == "Завершенные" {
+            self.visibleCategories = filterSuccessCategories(selectedDate: currentDate)
+        }
+        if filter == "Не завершенные" {
+            self.visibleCategories = filterUnsuccessCategories(selectedDate: currentDate)
+        }
+        if filter == nil {
+            setupCategories(currentDate: currentDate)
+        }
+        return filter
+    }
+    
     func setupComplitedTrackers() {
         self.complitedTrackers = trackerRecordStore.loadTrackerRecords()
     }
@@ -59,6 +91,56 @@ final class TrackersViewModel {
         )
         self.categories = categories?.filter{!$0.trackers.isEmpty}
         self.visibleCategories = categories
+    }
+    
+    func filterSuccessCategories(selectedDate: Date?)  -> [TrackerCategory]? {
+        var newCategories: [TrackerCategory] = []
+        let categories = self.categories
+        guard let categories = categories else { return nil }
+        for category in categories {
+            var newTrackers: [Tracker] = []
+            for i in 0..<category.trackers.count {
+                let tracker = category.trackers[i]
+                let complitedDates = self.filterComplitedTrackers(trackerId: tracker.id)
+                let complitedTrackerForDay = complitedDates.filter{$0.date == selectedDate}
+                if !complitedTrackerForDay.isEmpty {
+                    newTrackers.append(tracker)
+                }
+            }
+            if !newTrackers.isEmpty {
+                let newCategory = TrackerCategory(title: category.title, trackers: newTrackers)
+                newCategories.append(newCategory)
+            }
+        }
+        if newCategories.isEmpty {
+            return nil
+        }
+        return newCategories
+    }
+    
+    func filterUnsuccessCategories(selectedDate: Date?)  -> [TrackerCategory]? {
+        var newCategories: [TrackerCategory] = []
+        let categories = self.categories
+        guard let categories = categories else { return nil }
+        for category in categories {
+            var newTrackers: [Tracker] = []
+            for i in 0..<category.trackers.count {
+                let tracker = category.trackers[i]
+                let complitedDates = self.filterComplitedTrackers(trackerId: tracker.id)
+                let complitedTrackerForDay = complitedDates.filter{$0.date == selectedDate}
+                if complitedTrackerForDay.isEmpty {
+                    newTrackers.append(tracker)
+                }
+            }
+            if !newTrackers.isEmpty {
+                let newCategory = TrackerCategory(title: category.title, trackers: newTrackers)
+                newCategories.append(newCategory)
+            }
+        }
+        if newCategories.isEmpty {
+            return nil
+        }
+        return newCategories
     }
     
     func filterTrackers(searchText: String) -> [TrackerCategory]? {
@@ -91,6 +173,7 @@ final class TrackersViewModel {
             newCategories = categories
         }
         else {
+            var counter = 0
             guard let categories = categories else { return nil }
             for category in categories {
                 var newTrackers: [Tracker] = []
@@ -111,6 +194,11 @@ final class TrackersViewModel {
                 if !newTrackers.isEmpty {
                     let newCategory = TrackerCategory(title: category.title, trackers: newTrackers)
                     newCategories.append(newCategory)
+                    if category.title == "Закрепленные" {
+                        let category = newCategories.remove(at: counter)
+                        newCategories.insert(category, at: 0)
+                    }
+                    counter += 1
                 }
             }
         }

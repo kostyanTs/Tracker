@@ -118,7 +118,7 @@ final class TrackersViewController: UIViewController {
         button.layer.cornerRadius = 16
         button.setTitle("Фильтры", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.addTarget(self, action: #selector(Self.didTapCancelButton), for: .touchDown)
+        button.addTarget(self, action: #selector(Self.didTapFilterButton), for: .touchDown)
         return button
     }()
     
@@ -315,6 +315,11 @@ final class TrackersViewController: UIViewController {
         let currentDate = datePicker.date.getDateWithoutTime()
         let trackerId = categories[indexPath.section].trackers[indexPath.row].id
         let complitedDates = viewModel.filterComplitedTrackers(trackerId: trackerId)
+        if categories[indexPath.section].title == "Закрепленные" {
+            cell.fixImage.isHidden = false
+        } else {
+            cell.fixImage.isHidden = true
+        }
         if selectedDate == nil {
             selectedDate = currentDate
         }
@@ -363,6 +368,14 @@ final class TrackersViewController: UIViewController {
     private func didTapCancelButton() {
         searchTextField.text = nil
         textFieldDidChanged(searchTextField)
+    }
+    
+    @objc
+    private func didTapFilterButton() {
+        let filterViewController = FilterViewController()
+        filterViewController.delegate = self
+        let navigationFilterViewController = UINavigationController(rootViewController: filterViewController)
+        present(navigationFilterViewController, animated: true)
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker) {
@@ -442,10 +455,24 @@ extension TrackersViewController: UICollectionViewDataSource {
 
 extension TrackersViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let categories = viewModel.visibleCategories else { return nil }
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions in
-            let fixed = UIAction(title: "Закрепить") { [weak self] _ in
-                // TODO: make fixed category
+            let fixed: UIAction?
+            let tracker = categories[indexPaths[0].section].trackers[indexPaths[0].row]
+            if categories[indexPaths[0].section].title == "Закрепленные" {
+                fixed = UIAction(title: "Открепить") { [weak self] _ in
+                    // TODO: make fixed category
+                    self?.viewModel.unpinTracker(tracker: tracker)
+                    self?.reloadTrackersForFilters()
+                }
+            } else {
+                fixed = UIAction(title: "Закрепить") { [weak self] _ in
+                    // TODO: make fixed category
+                    self?.viewModel.fixTracker(tracker: tracker)
+                    self?.reloadTrackersForFilters()
+                }
             }
+            guard let fixed = fixed else { return nil }
             let edit = UIAction(title: "Редактировать") { [weak self] _ in
                 // TODO: Make EditViewController
             }
@@ -494,6 +521,16 @@ extension TrackersViewController: CreateTrackersDelegate {
         nilCenterLabel.isHidden = true
         nilCenterImageView.isHidden = true
         print("delegate work")
+    }
+}
+
+extension TrackersViewController: FilterDelegate {
+    func reloadTrackersForFilters() {
+        let filter = viewModel.filterCategories(currentDate: self.selectedDate)
+        if filter == "Трекеры на сегодня" {
+            datePicker.date = Date()
+        }
+        trackerCollectionView.reloadData()
     }
 }
 

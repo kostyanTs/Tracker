@@ -64,6 +64,29 @@ final class TrackerCategoryStore: NSObject {
         saveTrackerCategory()
     }
     
+    func updateFixTracker(tracker: Tracker) {
+        let fixRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        fixRequest.predicate = NSPredicate(format: "%K == 'Закрепленные'", #keyPath(TrackerCategoryCoreData.title))
+        guard let fixCategory = try? context.fetch(fixRequest).first else { return }
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        request.predicate = NSPredicate(format: "%K == '\(tracker.name)'", #keyPath(TrackerCoreData.name))
+        if let newTracker = try? context.fetch(request).first {
+            newTracker.extraCategory = newTracker.category
+            newTracker.category = fixCategory
+        }
+        saveTrackerCategory()
+    }
+    
+    func unpinTracker(tracker: Tracker) {
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        request.predicate = NSPredicate(format: "%K == '\(tracker.name)'", #keyPath(TrackerCoreData.name))
+        if let newTracker = try? context.fetch(request).first {
+            newTracker.category = newTracker.extraCategory
+            newTracker.extraCategory = nil
+        }
+        saveTrackerCategory()
+    }
+    
     func saveOnlyTitleCategory(categoryTitle: String) {
         let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
         trackerCategoryCoreData.title = categoryTitle
