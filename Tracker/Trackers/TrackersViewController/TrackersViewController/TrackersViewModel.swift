@@ -39,8 +39,8 @@ final class TrackersViewModel {
     
     func fixTracker(tracker: Tracker) {
         let categoryTitles = trackerCategoryStore.loadOnlyTitleCategories()
-        if categoryTitles.filter({$0 == "Закрепленные"}).isEmpty {
-            trackerCategoryStore.saveOnlyTitleCategory(categoryTitle: "Закрепленные")
+        if categoryTitles.filter({$0 == NSLocalizedString("fixCategory", comment: "")}).isEmpty {
+            trackerCategoryStore.saveOnlyTitleCategory(categoryTitle: NSLocalizedString("fixCategory", comment: ""))
         }
         trackerCategoryStore.updateFixTracker(tracker: tracker)
     }
@@ -181,7 +181,7 @@ final class TrackersViewModel {
                 if !newTrackers.isEmpty {
                     let newCategory = TrackerCategory(title: category.title, trackers: newTrackers)
                     newCategories.append(newCategory)
-                    if category.title == "Закрепленные" {
+                    if category.title == NSLocalizedString("fixCategory", comment: "") {
                         let category = newCategories.remove(at: counter)
                         newCategories.insert(category, at: 0)
                     }

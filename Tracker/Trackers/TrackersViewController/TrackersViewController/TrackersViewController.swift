@@ -47,7 +47,7 @@ final class TrackersViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = .ypBlackDay
-        label.text = "Трекеры"
+        label.text = NSLocalizedString("titleTracker", comment: "Yes")
         label.font = .systemFont(ofSize: 34, weight: .bold)
         return label
     }()
@@ -116,7 +116,7 @@ final class TrackersViewController: UIViewController {
         button.backgroundColor = .ypBlue
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
-        button.setTitle("Фильтры", for: .normal)
+        button.setTitle(NSLocalizedString("titleButtonFilters", comment: "Filters"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.addTarget(self, action: #selector(Self.didTapFilterButton), for: .touchDown)
         return button
@@ -157,6 +157,11 @@ final class TrackersViewController: UIViewController {
         return label
     }()
     
+    private lazy var containerCollecrtionView: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
     private lazy var trackerCollectionView: SelfSizingCollectionView = {
         let collectionView = SelfSizingCollectionView(frame: .zero, 
                                                       collectionViewLayout: UICollectionViewFlowLayout())
@@ -167,7 +172,16 @@ final class TrackersViewController: UIViewController {
                                 withReuseIdentifier: "header")
         collectionView.backgroundColor = .clear
         collectionView.allowsMultipleSelection = false
+        collectionView.alwaysBounceVertical = true
+        collectionView.automaticallyAdjustsScrollIndicatorInsets = false
+        collectionView.clipsToBounds = true
+        collectionView.contentOffset = CGPoint(x: 100, y: 1000)
         return collectionView
+    }()
+    
+    private lazy var extraCollecrtionView: UIView = {
+        let view = UIView()
+        return view
     }()
 
     override func viewDidLoad() {
@@ -238,6 +252,11 @@ final class TrackersViewController: UIViewController {
          searchImageView].forEach({
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
+        
+//        [extraCollecrtionView].forEach({
+//            trackerCollectionView.addSubview($0)
+//            $0.translatesAutoresizingMaskIntoConstraints = false
+//        })
 
         NSLayoutConstraint.activate([
             lineView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -315,7 +334,7 @@ final class TrackersViewController: UIViewController {
         let currentDate = datePicker.date.getDateWithoutTime()
         let trackerId = categories[indexPath.section].trackers[indexPath.row].id
         let complitedDates = viewModel.filterComplitedTrackers(trackerId: trackerId)
-        if categories[indexPath.section].title == "Закрепленные" {
+        if categories[indexPath.section].title == NSLocalizedString("fixCategory", comment: "") {
             cell.fixImage.isHidden = false
         } else {
             cell.fixImage.isHidden = true
@@ -324,7 +343,7 @@ final class TrackersViewController: UIViewController {
             selectedDate = currentDate
         }
         if categories[indexPath.section].trackers[indexPath.row].schedule != nil {
-            cell.dayLabel.text = "\(complitedDates.count) дней"
+            cell.dayLabel.text = "\(complitedDates.count) \(NSLocalizedString("cellDayTitle", comment: ""))"
         } else {
             cell.dayLabel.text = ""
             if !complitedDates.isEmpty {
@@ -479,6 +498,7 @@ extension TrackersViewController: UICollectionViewDataSource {
         cell.layer.cornerRadius = 16
         cell.layer.masksToBounds = true
         configCell(cell: cell, with: indexPath)
+        
         return cell
     }
 }
@@ -492,7 +512,7 @@ extension TrackersViewController: UICollectionViewDelegate {
             let category: TrackerCategory = categories[indexPaths[0].section]
             guard let cell = collectionView.cellForItem(at: indexPaths[0]) as? TrackersCollectionViewCell else { return nil }
             let dayText = cell.dayLabel.text
-            if categories[indexPaths[0].section].title == "Закрепленные" {
+            if categories[indexPaths[0].section].title == NSLocalizedString("fixCategory", comment: "") {
                 fixed = UIAction(title: "Открепить") { [weak self] _ in
                     self?.viewModel.unpinTracker(tracker: tracker)
                     self?.reloadTrackersForFilters()
