@@ -176,7 +176,7 @@ final class TrackersViewController: UIViewController {
         collectionView.alwaysBounceVertical = true
         collectionView.automaticallyAdjustsScrollIndicatorInsets = false
         collectionView.clipsToBounds = true
-        collectionView.contentOffset = CGPoint(x: 100, y: 1000)
+        collectionView.contentInset.bottom = 50
         return collectionView
     }()
     
