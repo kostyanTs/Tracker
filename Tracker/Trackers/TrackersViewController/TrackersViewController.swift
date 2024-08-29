@@ -236,7 +236,10 @@ final class TrackersViewController: UIViewController {
                 var newTrackers: [Tracker] = []
                 for i in 0..<category.trackers.count {
                     let tracker = category.trackers[i]
-                    guard let weekdays = tracker.schedule else { continue }
+                    guard let weekdays = tracker.schedule else {
+                        newTrackers.append(tracker)
+                        continue
+                    }
                     for i in 0..<weekdays.count {
                         let weekday = weekdays[i]
                         guard let weekday = weekday else { return nil }
@@ -268,6 +271,14 @@ final class TrackersViewController: UIViewController {
         }
         if categories[indexPath.section].trackers[indexPath.row].schedule != nil {
             cell.dayLabel.text = "\(complitedDates.count) дней"
+        } else {
+            cell.dayLabel.text = ""
+            if !complitedDates.isEmpty {
+                cell.plusButton.setImage(cell.setupDoneButtonImage(), for: .normal)
+                cell.plusButton.tintColor = .ypWhiteDay
+                cell.plusButton.backgroundColor = categories[indexPath.section].trackers[indexPath.row].color.withAlphaComponent(0.3)
+                cell.isDone = true
+            }
         }
         let complitedTrackerForDay = complitedDates.filter{$0.date == selectedDate}
         print(complitedTrackerForDay)
@@ -428,7 +439,6 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
         if !datePickerDate.isBeforeOrEqual(date: currentDate){
             return
         }
-        
         guard let indexPath = trackerCollectionView.indexPath(for: cell) else { return }
         guard let categories = self.categories else { return }
         let tracker = categories[indexPath.section].trackers[indexPath.row]
@@ -448,6 +458,9 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
         let complitedDates = complitedTrackers?.filter{$0.id.hashValue == id.hashValue} ?? []
         let countComplitedDates = complitedDates.count
         completion(tracker, countComplitedDates, cell.isDone)
+        if tracker.schedule == nil {
+            cell.dayLabel.text = ""
+        }
     }
 }
 
