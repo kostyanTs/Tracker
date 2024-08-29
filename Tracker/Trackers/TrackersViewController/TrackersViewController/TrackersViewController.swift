@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AppMetricaCore
 
 final class TrackersViewController: UIViewController {
 
@@ -202,6 +203,10 @@ final class TrackersViewController: UIViewController {
         }
         self.trackerCollectionView.reloadData()
         viewModel.deleteValuesForIndexPath()
+        let params : [AnyHashable : Any] = ["key1": "TrackersViewController"]
+        AppMetrica.reportEvent(name: "EVENT: open", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
     }
     
     private func checkCategories() {
@@ -252,12 +257,7 @@ final class TrackersViewController: UIViewController {
          searchImageView].forEach({
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
-        
-//        [extraCollecrtionView].forEach({
-//            trackerCollectionView.addSubview($0)
-//            $0.translatesAutoresizingMaskIntoConstraints = false
-//        })
-
+ 
         NSLayoutConstraint.activate([
             lineView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             lineView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -409,6 +409,10 @@ final class TrackersViewController: UIViewController {
 
     @objc
     private func didTapLeftNavButton() {
+        let params : [AnyHashable : Any] = ["key1": "TrackersViewController", "key2": "PlusLeftNavButton"]
+        AppMetrica.reportEvent(name: "EVENT: click", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
         viewModel.didTapLeftNavButton()
         let createTrackerViewController = CreateTrackersViewController()
         createTrackerViewController.delegate = self
@@ -424,6 +428,10 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func didTapFilterButton() {
+        let params : [AnyHashable : Any] = ["key1": "TrackersViewController", "key2": "FiltersButton"]
+        AppMetrica.reportEvent(name: "EVENT: click", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
         let filterViewController = FilterViewController()
         filterViewController.delegate = self
         let navigationFilterViewController = UINavigationController(rootViewController: filterViewController)
@@ -532,9 +540,17 @@ extension TrackersViewController: UICollectionViewDelegate {
                 editTrackerViewController.delegate = self
                 let navigationController = UINavigationController(rootViewController: editTrackerViewController)
                 self?.present(navigationController, animated: true)
+                let params : [AnyHashable : Any] = ["key1": "TrackersViewController", "key2": "EditTrackers in contextMenu"]
+                AppMetrica.reportEvent(name: "EVENT: click", parameters: params, onFailure: { error in
+                    print("REPORT ERROR: %@", error.localizedDescription)
+                })
             }
             let delete = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
                 self?.showAlert(tracker: tracker)
+                let params : [AnyHashable : Any] = ["key1": "TrackersViewController", "key2": "delete trackers in contextMenu"]
+                AppMetrica.reportEvent(name: "EVENT: click", parameters: params, onFailure: { error in
+                    print("REPORT ERROR: %@", error.localizedDescription)
+                })
             }
             return UIMenu(title: "", children: [fixed, edit, delete])
         }
@@ -619,6 +635,11 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
         if tracker.schedule == nil {
             cell.dayLabel.text = ""
         }
+        
+        let params : [AnyHashable : Any] = ["key1": "TrackersViewController", "key2": "trackerReadyButton"]
+        AppMetrica.reportEvent(name: "EVENT: click ", parameters: params, onFailure: { error in
+            print("REPORT ERROR: %@", error.localizedDescription)
+        })
     }
 }
 
