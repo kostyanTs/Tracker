@@ -82,6 +82,15 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    lazy var fixImage: UIImageView = {
+        let imageView = UIImageView()
+        let image = UIImage(named: "fixIcon")
+        imageView.image = image
+        imageView.tintColor = .white
+        imageView.isHidden = true
+        return imageView
+    }()
+    
     static let identifier = "TrackerCell"
     
     override init(frame: CGRect) {
@@ -109,7 +118,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             containerView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        [titleLabel,emojiViewContainer].forEach{
+        [titleLabel,emojiViewContainer, fixImage].forEach{
             mainView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
@@ -153,6 +162,11 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             emojiView.leadingAnchor.constraint(equalTo: emojiViewContainer.leadingAnchor, constant: 1),
             emojiView.trailingAnchor.constraint(equalTo: emojiViewContainer.trailingAnchor, constant: -1),
             emojiView.bottomAnchor.constraint(equalTo: emojiViewContainer.bottomAnchor, constant: -1),
+            
+            fixImage.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 12),
+            fixImage.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -4),
+            fixImage.widthAnchor.constraint(equalTo: fixImage.heightAnchor),
+            fixImage.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -54),
             
             plusButton.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 8),
             plusButton.trailingAnchor.constraint(equalTo: buttonView.trailingAnchor, constant: -12),

@@ -15,7 +15,7 @@ final class CategoryViewController: UIViewController {
         let label = UILabel()
         label.text = "Категория"
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .black
+        label.textColor = .ypBlackDay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -60,7 +60,7 @@ final class CategoryViewController: UIViewController {
         button.setTitle("Добавить категорию", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.titleLabel?.textAlignment = .center
-        button.titleLabel?.textColor = .ypWhiteDay
+        button.setTitleColor(.ypWhiteDay, for: .normal)
         button.backgroundColor = .ypBlackDay
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16

@@ -17,6 +17,8 @@ final class DataHolder {
     var emojiForIndexPath: String?
     var colorForIndexPath: UIColor?
     
+    var filter: String?
+    
     private init() {}
 
     func deleteValuesForIndexPath() {

@@ -36,8 +36,14 @@ final class CreateHabitViewController: UIViewController {
         let label = UILabel()
         label.text = "Новая привычка"
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .black
+        label.textColor = .ypBlackDay
         return label
+    }()
+    
+    private lazy var trackerTitleContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
     }()
     
     private lazy var trackerTitleView: UIView = {
@@ -56,6 +62,14 @@ final class CreateHabitViewController: UIViewController {
         textField.placeholder = "Введите название трекера"
         textField.addTarget(self, action: #selector(Self.textFieldDidChanged), for: .editingChanged)
         return textField
+    }()
+    
+    private lazy var limitLabel: UILabel = {
+        let label = UILabel()
+        label.textAlignment = .center
+        label.font = .systemFont(ofSize: 17, weight: .regular)
+        label.textColor = .ypRed
+        return label
     }()
     
     private lazy var cancelButton: UIButton = {
@@ -177,7 +191,9 @@ final class CreateHabitViewController: UIViewController {
     private func setupViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
-        contentView.addSubview(trackerTitleView)
+        contentView.addSubview(trackerTitleContainerView)
+        trackerTitleContainerView.addSubview(trackerTitleView)
+        trackerTitleContainerView.addSubview(limitLabel)
         trackerTitleView.addSubview(trackerTitleTextField)
         [categoryButton, scheduleButton,
          createButton, cancelButton,
@@ -188,9 +204,11 @@ final class CreateHabitViewController: UIViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         [scrollView, contentView,
+         trackerTitleContainerView, limitLabel,
          trackerTitleView, trackerTitleTextField].forEach{
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
+        
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
@@ -205,16 +223,21 @@ final class CreateHabitViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.bottomAnchor.constraint(equalTo: cancelButton.bottomAnchor ),
             
+            trackerTitleContainerView.heightAnchor.constraint(greaterThanOrEqualToConstant: 75),
+            trackerTitleContainerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            trackerTitleContainerView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            trackerTitleContainerView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
+            
+            trackerTitleView.topAnchor.constraint(equalTo: trackerTitleContainerView.topAnchor, constant: 0),
             trackerTitleView.heightAnchor.constraint(equalToConstant: 75),
-            trackerTitleView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            trackerTitleView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            trackerTitleView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
+            trackerTitleView.leadingAnchor.constraint(equalTo: trackerTitleContainerView.leadingAnchor, constant: 0),
+            trackerTitleView.trailingAnchor.constraint(equalTo: trackerTitleContainerView.trailingAnchor, constant: 0),
             
             trackerTitleTextField.topAnchor.constraint(equalTo: trackerTitleView.topAnchor, constant: 27),
             trackerTitleTextField.leadingAnchor.constraint(equalTo: trackerTitleView.leadingAnchor, constant: 16),
             trackerTitleTextField.trailingAnchor.constraint(equalTo: trackerTitleView.trailingAnchor, constant: -41),
             
-            categoryButton.topAnchor.constraint(equalTo: trackerTitleView.bottomAnchor, constant: 24),
+            categoryButton.topAnchor.constraint(equalTo: trackerTitleContainerView.bottomAnchor, constant: 24),
             categoryButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             categoryButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             categoryButton.heightAnchor.constraint(equalToConstant: 75),
@@ -255,6 +278,28 @@ final class CreateHabitViewController: UIViewController {
             
             colorTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
             colorTitle.bottomAnchor.constraint(equalTo: colorCollectionView.topAnchor, constant: -24),
+        ])
+    }
+    
+    private func addLimitLabel() {
+        limitLabel.text = "Ограничение 38 символов"
+        NSLayoutConstraint.activate([
+            limitLabel.topAnchor.constraint(equalTo: trackerTitleView.bottomAnchor, constant: 8),
+            limitLabel.bottomAnchor.constraint(equalTo: trackerTitleContainerView.bottomAnchor, constant: -8),
+            limitLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 30),
+            limitLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            limitLabel.leadingAnchor.constraint(equalTo: trackerTitleContainerView.leadingAnchor, constant: 28),
+        ])
+    }
+    
+    private func dismissLimitLabel() {
+        limitLabel.text = nil
+        NSLayoutConstraint.activate([
+            limitLabel.topAnchor.constraint(equalTo: trackerTitleView.bottomAnchor, constant: 0),
+            limitLabel.bottomAnchor.constraint(equalTo: trackerTitleContainerView.bottomAnchor, constant: 0),
+            limitLabel.heightAnchor.constraint(greaterThanOrEqualToConstant: 0),
+            limitLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
+            limitLabel.leadingAnchor.constraint(equalTo: trackerTitleContainerView.leadingAnchor, constant: 28),
         ])
     }
     
@@ -309,9 +354,30 @@ final class CreateHabitViewController: UIViewController {
         return scheduleString
     }
     
+    private func createTracker() {
+        guard let nameTracker = trackerTitleTextField.text,
+              let color = dataHolder.colorForIndexPath,
+              let emoji = dataHolder.emojiForIndexPath,
+              let schedule = dataHolder.scheduleForIndexPath
+        else { return }
+        let tracker = Tracker(id: UUID(),
+                              name: nameTracker,
+                              color: color,
+                              emoji: emoji,
+                              schedule: schedule)
+        guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
+        trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
+        dataHolder.deleteValuesForIndexPath()
+    }
+    
     @objc func textFieldDidChanged() {
         if isButtonEnabled() {
             createButton.isEnabled = true
+        }
+        if trackerTitleTextField.text?.count ?? 0 > 38 {
+            addLimitLabel()
+        } else {
+            dismissLimitLabel()
         }
     }
     
@@ -329,19 +395,7 @@ final class CreateHabitViewController: UIViewController {
             dataHolder.colorForIndexPath == nil ||
             dataHolder.emojiForIndexPath == nil
         { return }
-        guard let nameTracker = trackerTitleTextField.text,
-              let color = dataHolder.colorForIndexPath,
-              let emoji = dataHolder.emojiForIndexPath,
-              let schedule = dataHolder.scheduleForIndexPath
-        else { return }
-        let tracker = Tracker(id: UUID(),
-                              name: nameTracker,
-                              color: color,
-                              emoji: emoji,
-                              schedule: schedule)
-        guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
-        trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
-        dataHolder.deleteValuesForIndexPath()
+        createTracker()
         delegate?.reloadTrackersHabitCollectionView()
         dismiss(animated: true)
     }

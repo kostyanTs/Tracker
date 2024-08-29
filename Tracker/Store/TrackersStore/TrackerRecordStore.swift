@@ -56,7 +56,6 @@ final class TrackerRecordStore: NSObject {
     private func saveTrackerRecord(){
         do{
             try context.save()
-            print("TrackerRecord save")
         } catch {
             print("[TrackerRecordStore]: error to save TrackerRecord in CoreData")
             context.rollback()

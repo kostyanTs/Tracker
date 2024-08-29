@@ -49,6 +49,20 @@
 		35C1E5132C6CC49200872795 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5122C6CC49200872795 /* CategoryViewModel.swift */; };
 		35C1E5152C6CF77200872795 /* UserDefaults+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5142C6CF77200872795 /* UserDefaults+extension.swift */; };
 		35C1E5242C6E96FB00872795 /* Tracker.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5212C6E956700872795 /* Tracker.xcdatamodeld */; };
+		35C1E5262C6FE9E700872795 /* TrackersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5252C6FE9E700872795 /* TrackersViewModel.swift */; };
+		35C1E5282C6FEA1C00872795 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5272C6FEA1C00872795 /* Binding.swift */; };
+		35C1E52A2C7F21D900872795 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5292C7F21D900872795 /* FilterViewController.swift */; };
+		35C1E52D2C7F285100872795 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E52C2C7F285100872795 /* Filters.swift */; };
+		35C1E5322C80883200872795 /* EditTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5312C80883200872795 /* EditTrackerViewController.swift */; };
+		35C1E5342C80BC7000872795 /* StatisticTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5332C80BC7000872795 /* StatisticTableViewCell.swift */; };
+		35C1E5362C80CB1600872795 /* Statistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5352C80CB1600872795 /* Statistic.swift */; };
+		35C1E53A2C81055200872795 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 35C1E5382C81055200872795 /* Localizable.strings */; };
+		35C1E5462C810D5700872795 /* InlineSnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 35C1E5452C810D5700872795 /* InlineSnapshotTesting */; };
+		35C1E5482C810D5B00872795 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = 35C1E5472C810D5B00872795 /* SnapshotTesting */; };
+		35C1E54B2C81255600872795 /* AppMetricaAdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 35C1E54A2C81255600872795 /* AppMetricaAdSupport */; };
+		35C1E54D2C81255A00872795 /* AppMetricaCore in Frameworks */ = {isa = PBXBuildFile; productRef = 35C1E54C2C81255A00872795 /* AppMetricaCore */; };
+		35C1E54F2C81255D00872795 /* AppMetricaCrashes in Frameworks */ = {isa = PBXBuildFile; productRef = 35C1E54E2C81255D00872795 /* AppMetricaCrashes */; };
+		35C1E5512C81256000872795 /* AppMetricaWebKit in Frameworks */ = {isa = PBXBuildFile; productRef = 35C1E5502C81256000872795 /* AppMetricaWebKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -115,6 +129,18 @@
 		35C1E5122C6CC49200872795 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		35C1E5142C6CF77200872795 /* UserDefaults+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+extension.swift"; sourceTree = "<group>"; };
 		35C1E5222C6E956700872795 /* Tracker.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Tracker.xcdatamodel; sourceTree = "<group>"; };
+		35C1E5252C6FE9E700872795 /* TrackersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewModel.swift; sourceTree = "<group>"; };
+		35C1E5272C6FEA1C00872795 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
+		35C1E5292C7F21D900872795 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
+		35C1E52C2C7F285100872795 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
+		35C1E5312C80883200872795 /* EditTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackerViewController.swift; sourceTree = "<group>"; };
+		35C1E5332C80BC7000872795 /* StatisticTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticTableViewCell.swift; sourceTree = "<group>"; };
+		35C1E5352C80CB1600872795 /* Statistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistic.swift; sourceTree = "<group>"; };
+		35C1E5392C81055200872795 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		35C1E53B2C8105FD00872795 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
+		35C1E53C2C8105FD00872795 /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		35C1E53D2C8107F500872795 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		35C1E53E2C8107F500872795 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +148,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35C1E5512C81256000872795 /* AppMetricaWebKit in Frameworks */,
+				35C1E54F2C81255D00872795 /* AppMetricaCrashes in Frameworks */,
+				35C1E54B2C81255600872795 /* AppMetricaAdSupport in Frameworks */,
+				35C1E54D2C81255A00872795 /* AppMetricaCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,6 +159,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35C1E5462C810D5700872795 /* InlineSnapshotTesting in Frameworks */,
+				35C1E5482C810D5B00872795 /* SnapshotTesting in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +181,7 @@
 				350353B12C32B0A200C8293D /* TrackerTests */,
 				350353BB2C32B0A200C8293D /* TrackerUITests */,
 				350353992C32B0A100C8293D /* Products */,
+				35C1E5402C810D0200872795 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -165,6 +198,7 @@
 		3503539A2C32B0A100C8293D /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				35C1E5372C81052C00872795 /* Resources */,
 				35C1E5212C6E956700872795 /* Tracker.xcdatamodeld */,
 				3577A6812C5CCD0900A05395 /* Store */,
 				355DC5202C3E9836000BC540 /* Models */,
@@ -219,11 +253,11 @@
 		355DC5202C3E9836000BC540 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				35C1E52B2C7F282000872795 /* Enums */,
 				3577A6302C538C2A00A05395 /* Extensions */,
-				3577A6252C4FB4ED00A05395 /* CollectionsItems */,
-				3577A61C2C4FAD2C00A05395 /* EnumWeekDay */,
 				3577A6142C4A714400A05395 /* Structs */,
 				3577A6152C4A715200A05395 /* CustomUI */,
+				35C1E5272C6FEA1C00872795 /* Binding.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -233,6 +267,7 @@
 			children = (
 				3577A60E2C47B64800A05395 /* CategoryTableViewCell.swift */,
 				3577A61A2C4E5CBD00A05395 /* ScheduleTableViewcell.swift */,
+				35C1E5332C80BC7000872795 /* StatisticTableViewCell.swift */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -259,14 +294,6 @@
 			path = CustomUI;
 			sourceTree = "<group>";
 		};
-		3577A61C2C4FAD2C00A05395 /* EnumWeekDay */ = {
-			isa = PBXGroup;
-			children = (
-				3577A61D2C4FAD4B00A05395 /* WeekDay.swift */,
-			);
-			path = EnumWeekDay;
-			sourceTree = "<group>";
-		};
 		3577A61F2C4FAD8A00A05395 /* CollectionViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,14 +302,6 @@
 				3577A62E2C52420200A05395 /* TrackersCollectionViewCell.swift */,
 			);
 			path = CollectionViewCells;
-			sourceTree = "<group>";
-		};
-		3577A6252C4FB4ED00A05395 /* CollectionsItems */ = {
-			isa = PBXGroup;
-			children = (
-				3577A6262C4FB51100A05395 /* CollectionsItems.swift */,
-			);
-			path = CollectionsItems;
 			sourceTree = "<group>";
 		};
 		3577A6302C538C2A00A05395 /* Extensions */ = {
@@ -341,7 +360,9 @@
 		3577A68D2C62CF9A00A05395 /* TrackersViewController */ = {
 			isa = PBXGroup;
 			children = (
-				350353CB2C35127F00C8293D /* TrackersViewController.swift */,
+				35C1E52F2C7F899B00872795 /* TrackersViewController */,
+				35C1E5302C8087EF00872795 /* EditTrackerViewController */,
+				35C1E52E2C7F858B00872795 /* FilterViewController */,
 				355B55342C3FC3280073A169 /* CreateTrackers */,
 				35C1E5102C6CB4C400872795 /* CategoryViewController */,
 				35C1E5112C6CB4F500872795 /* ScheduleViewController */,
@@ -402,6 +423,57 @@
 			path = ScheduleViewController;
 			sourceTree = "<group>";
 		};
+		35C1E52B2C7F282000872795 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				3577A6262C4FB51100A05395 /* CollectionsItems.swift */,
+				3577A61D2C4FAD4B00A05395 /* WeekDay.swift */,
+				35C1E52C2C7F285100872795 /* Filters.swift */,
+				35C1E5352C80CB1600872795 /* Statistic.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		35C1E52E2C7F858B00872795 /* FilterViewController */ = {
+			isa = PBXGroup;
+			children = (
+				35C1E5292C7F21D900872795 /* FilterViewController.swift */,
+			);
+			path = FilterViewController;
+			sourceTree = "<group>";
+		};
+		35C1E52F2C7F899B00872795 /* TrackersViewController */ = {
+			isa = PBXGroup;
+			children = (
+				350353CB2C35127F00C8293D /* TrackersViewController.swift */,
+				35C1E5252C6FE9E700872795 /* TrackersViewModel.swift */,
+			);
+			path = TrackersViewController;
+			sourceTree = "<group>";
+		};
+		35C1E5302C8087EF00872795 /* EditTrackerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				35C1E5312C80883200872795 /* EditTrackerViewController.swift */,
+			);
+			path = EditTrackerViewController;
+			sourceTree = "<group>";
+		};
+		35C1E5372C81052C00872795 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				35C1E5382C81055200872795 /* Localizable.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		35C1E5402C810D0200872795 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -418,6 +490,12 @@
 			dependencies = (
 			);
 			name = Tracker;
+			packageProductDependencies = (
+				35C1E54A2C81255600872795 /* AppMetricaAdSupport */,
+				35C1E54C2C81255A00872795 /* AppMetricaCore */,
+				35C1E54E2C81255D00872795 /* AppMetricaCrashes */,
+				35C1E5502C81256000872795 /* AppMetricaWebKit */,
+			);
 			productName = Tracker;
 			productReference = 350353982C32B0A100C8293D /* Tracker.app */;
 			productType = "com.apple.product-type.application";
@@ -436,6 +514,10 @@
 				350353B02C32B0A200C8293D /* PBXTargetDependency */,
 			);
 			name = TrackerTests;
+			packageProductDependencies = (
+				35C1E5452C810D5700872795 /* InlineSnapshotTesting */,
+				35C1E5472C810D5B00872795 /* SnapshotTesting */,
+			);
 			productName = TrackerTests;
 			productReference = 350353AE2C32B0A200C8293D /* TrackerTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -488,8 +570,14 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-HK",
+				ru,
 			);
 			mainGroup = 3503538F2C32B0A100C8293D;
+			packageReferences = (
+				35C1E53F2C810CF200872795 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
+				35C1E5492C81251400872795 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */,
+			);
 			productRefGroup = 350353992C32B0A100C8293D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -507,6 +595,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				350353A52C32B0A200C8293D /* Assets.xcassets in Resources */,
+				35C1E53A2C81055200872795 /* Localizable.strings in Resources */,
 				350353A82C32B0A200C8293D /* Base in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -535,10 +624,12 @@
 				3577A6852C5CD05300A05395 /* String+extension.swift in Sources */,
 				3577A6892C5CEEAF00A05395 /* TrackerRecordStore.swift in Sources */,
 				3577A62F2C52420200A05395 /* TrackersCollectionViewCell.swift in Sources */,
+				35C1E52D2C7F285100872795 /* Filters.swift in Sources */,
 				35C1E50D2C6C965000872795 /* OnboardingViewController.swift in Sources */,
 				3577A61B2C4E5CBD00A05395 /* ScheduleTableViewcell.swift in Sources */,
 				355B55362C3FC37C0073A169 /* CreateHabitViewController.swift in Sources */,
 				355DC5242C3E9924000BC540 /* TrackerCategory.swift in Sources */,
+				35C1E5282C6FEA1C00872795 /* Binding.swift in Sources */,
 				355B55302C3FB2C90073A169 /* CreateTrackersViewController.swift in Sources */,
 				350353D42C3518AD00C8293D /* UIColor+extension.swift in Sources */,
 				3577A6342C53C84400A05395 /* SupplementaryView.swift in Sources */,
@@ -547,8 +638,10 @@
 				3577A6172C4A71D100A05395 /* SelfSizingTableView.swift in Sources */,
 				350353CC2C35127F00C8293D /* TrackersViewController.swift in Sources */,
 				3577A6092C45537E00A05395 /* CreateCategoryViewController.swift in Sources */,
+				35C1E5262C6FE9E700872795 /* TrackersViewModel.swift in Sources */,
 				3577A62B2C51224100A05395 /* SelfSizingCollectionView.swift in Sources */,
 				35C1E5132C6CC49200872795 /* CategoryViewModel.swift in Sources */,
+				35C1E5342C80BC7000872795 /* StatisticTableViewCell.swift in Sources */,
 				3577A6832C5CCD1C00A05395 /* TrackerStore.swift in Sources */,
 				3577A61E2C4FAD4B00A05395 /* WeekDay.swift in Sources */,
 				355B55322C3FC25E0073A169 /* CreateUnregularEventViewController.swift in Sources */,
@@ -558,17 +651,20 @@
 				3577A6192C4E560000A05395 /* ScheduleViewController.swift in Sources */,
 				350353D02C3512AF00C8293D /* StatisticsViewController.swift in Sources */,
 				3577A6052C452A6D00A05395 /* CategoryViewController.swift in Sources */,
+				35C1E5362C80CB1600872795 /* Statistic.swift in Sources */,
 				350353CE2C35129400C8293D /* TabBarViewController.swift in Sources */,
 				3503539E2C32B0A100C8293D /* SceneDelegate.swift in Sources */,
 				35C1E5152C6CF77200872795 /* UserDefaults+extension.swift in Sources */,
 				3577A6072C453CB700A05395 /* CustomButton.swift in Sources */,
 				3577A6372C55A61800A05395 /* Date+extension.swift in Sources */,
 				3577A6112C49213300A05395 /* DataHolder.swift in Sources */,
+				35C1E52A2C7F21D900872795 /* FilterViewController.swift in Sources */,
 				35C1E5242C6E96FB00872795 /* Tracker.xcdatamodeld in Sources */,
 				3577A6272C4FB51100A05395 /* CollectionsItems.swift in Sources */,
 				35C1E50F2C6C968700872795 /* ForOnboardingViewController.swift in Sources */,
 				3577A6292C50E5CD00A05395 /* EmojiCollectionViewCell.swift in Sources */,
 				3577A60F2C47B64800A05395 /* CategoryTableViewCell.swift in Sources */,
+				35C1E5322C80883200872795 /* EditTrackerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,8 +705,20 @@
 			isa = PBXVariantGroup;
 			children = (
 				350353A72C32B0A200C8293D /* Base */,
+				35C1E53B2C8105FD00872795 /* zh-HK */,
+				35C1E53D2C8107F500872795 /* ru */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		35C1E5382C81055200872795 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				35C1E5392C81055200872795 /* en */,
+				35C1E53C2C8105FD00872795 /* zh-HK */,
+				35C1E53E2C8107F500872795 /* ru */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -621,6 +729,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -684,6 +793,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -915,6 +1025,58 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		35C1E53F2C810CF200872795 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-snapshot-testing";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.17.4;
+			};
+		};
+		35C1E5492C81251400872795 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/appmetrica/appmetrica-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		35C1E5452C810D5700872795 /* InlineSnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35C1E53F2C810CF200872795 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = InlineSnapshotTesting;
+		};
+		35C1E5472C810D5B00872795 /* SnapshotTesting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35C1E53F2C810CF200872795 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */;
+			productName = SnapshotTesting;
+		};
+		35C1E54A2C81255600872795 /* AppMetricaAdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35C1E5492C81251400872795 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaAdSupport;
+		};
+		35C1E54C2C81255A00872795 /* AppMetricaCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35C1E5492C81251400872795 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaCore;
+		};
+		35C1E54E2C81255D00872795 /* AppMetricaCrashes */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35C1E5492C81251400872795 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaCrashes;
+		};
+		35C1E5502C81256000872795 /* AppMetricaWebKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35C1E5492C81251400872795 /* XCRemoteSwiftPackageReference "appmetrica-sdk-ios" */;
+			productName = AppMetricaWebKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		35C1E5212C6E956700872795 /* Tracker.xcdatamodeld */ = {
