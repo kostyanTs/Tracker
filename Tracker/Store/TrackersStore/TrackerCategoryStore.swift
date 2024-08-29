@@ -81,6 +81,34 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     
+    func updateTracker(tracker: Tracker, updateTracker: Tracker, newCategoryTitle: String) {
+        let categoryRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        categoryRequest.predicate = NSPredicate(
+            format: "%K == '\(newCategoryTitle)'",
+            #keyPath(TrackerCategoryCoreData.title))
+        guard let newCategory = try? context.fetch(categoryRequest).first else { return }
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        let predicateForName = NSPredicate(
+            format: "%K == '\(tracker.name)'",
+            #keyPath(TrackerCoreData.name))
+        let predicateForColor = NSPredicate(
+            format: "%K == '\(tracker.emoji)'",
+            #keyPath(TrackerCoreData.emoji))
+        let predicate = NSCompoundPredicate(
+            type: NSCompoundPredicate.LogicalType.and,
+            subpredicates: [predicateForName, predicateForColor])
+        request.predicate = predicate
+        let encoder = JSONEncoder()
+        if let newTracker = try? context.fetch(request).first {
+            newTracker.category = newCategory
+            newTracker.name = updateTracker.name
+            newTracker.color = updateTracker.color.hexString()
+            newTracker.emoji = updateTracker.emoji
+            newTracker.schedule = try? encoder.encode(updateTracker.schedule)
+        }
+        saveTrackerCategory()
+    }
+    
     func updateFixTracker(tracker: Tracker) {
         let fixRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
         fixRequest.predicate = NSPredicate(

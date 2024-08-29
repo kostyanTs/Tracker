@@ -53,6 +53,7 @@
 		35C1E5282C6FEA1C00872795 /* Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5272C6FEA1C00872795 /* Binding.swift */; };
 		35C1E52A2C7F21D900872795 /* FilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5292C7F21D900872795 /* FilterViewController.swift */; };
 		35C1E52D2C7F285100872795 /* Filters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E52C2C7F285100872795 /* Filters.swift */; };
+		35C1E5322C80883200872795 /* EditTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35C1E5312C80883200872795 /* EditTrackerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -123,6 +124,7 @@
 		35C1E5272C6FEA1C00872795 /* Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Binding.swift; sourceTree = "<group>"; };
 		35C1E5292C7F21D900872795 /* FilterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterViewController.swift; sourceTree = "<group>"; };
 		35C1E52C2C7F285100872795 /* Filters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filters.swift; sourceTree = "<group>"; };
+		35C1E5312C80883200872795 /* EditTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTrackerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,6 +336,7 @@
 			isa = PBXGroup;
 			children = (
 				35C1E52F2C7F899B00872795 /* TrackersViewController */,
+				35C1E5302C8087EF00872795 /* EditTrackerViewController */,
 				35C1E52E2C7F858B00872795 /* FilterViewController */,
 				355B55342C3FC3280073A169 /* CreateTrackers */,
 				35C1E5102C6CB4C400872795 /* CategoryViewController */,
@@ -420,6 +423,14 @@
 				35C1E5252C6FE9E700872795 /* TrackersViewModel.swift */,
 			);
 			path = TrackersViewController;
+			sourceTree = "<group>";
+		};
+		35C1E5302C8087EF00872795 /* EditTrackerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				35C1E5312C80883200872795 /* EditTrackerViewController.swift */,
+			);
+			path = EditTrackerViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -593,6 +604,7 @@
 				35C1E50F2C6C968700872795 /* ForOnboardingViewController.swift in Sources */,
 				3577A6292C50E5CD00A05395 /* EmojiCollectionViewCell.swift in Sources */,
 				3577A60F2C47B64800A05395 /* CategoryTableViewCell.swift in Sources */,
+				35C1E5322C80883200872795 /* EditTrackerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

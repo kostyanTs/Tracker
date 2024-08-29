@@ -488,26 +488,32 @@ extension TrackersViewController: UICollectionViewDelegate {
         guard let categories = viewModel.visibleCategories else { return nil }
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions in
             let fixed: UIAction?
-            let tracker = categories[indexPaths[0].section].trackers[indexPaths[0].row]
+            let tracker: Tracker = categories[indexPaths[0].section].trackers[indexPaths[0].row]
+            let category: TrackerCategory = categories[indexPaths[0].section]
+            guard let cell = collectionView.cellForItem(at: indexPaths[0]) as? TrackersCollectionViewCell else { return nil }
+            let dayText = cell.dayLabel.text
             if categories[indexPaths[0].section].title == "Закрепленные" {
                 fixed = UIAction(title: "Открепить") { [weak self] _ in
-                    // TODO: make fixed category
                     self?.viewModel.unpinTracker(tracker: tracker)
                     self?.reloadTrackersForFilters()
                 }
             } else {
                 fixed = UIAction(title: "Закрепить") { [weak self] _ in
-                    // TODO: make fixed category
                     self?.viewModel.fixTracker(tracker: tracker)
                     self?.reloadTrackersForFilters()
                 }
             }
             guard let fixed = fixed else { return nil }
             let edit = UIAction(title: "Редактировать") { [weak self] _ in
-                // TODO: Make EditViewController
+                let editTrackerViewController = EditTrackerViewController()
+                editTrackerViewController.tracker = tracker
+                editTrackerViewController.category = category
+                editTrackerViewController.dayText = dayText
+                editTrackerViewController.delegate = self
+                let navigationController = UINavigationController(rootViewController: editTrackerViewController)
+                self?.present(navigationController, animated: true)
             }
             let delete = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
-                // TODO: add delete func to TrackerCategoryStore
                 self?.showAlert(tracker: tracker)
             }
             return UIMenu(title: "", children: [fixed, edit, delete])
@@ -599,6 +605,12 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
 extension TrackersViewController: TrackerCategoryStoreDelegate {
     func updateTrackers(indexPath: IndexPath) {
         trackerCollectionView.reloadData()
+    }
+}
+
+extension TrackersViewController: EditTrackerDeledate {
+    func reloadTrackersEditCollectionView() {
+        reloadTrackersForFilters()
     }
 }
 
