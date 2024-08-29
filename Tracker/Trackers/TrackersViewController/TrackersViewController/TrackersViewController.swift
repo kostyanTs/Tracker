@@ -512,6 +512,13 @@ extension TrackersViewController: UICollectionViewDataSource {
 }
 
 extension TrackersViewController: UICollectionViewDelegate {
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfiguration configuration: UIContextMenuConfiguration, highlightPreviewForItemAt indexPath: IndexPath) -> UITargetedPreview? {
+        guard let cell = collectionView.cellForItem(at: indexPath) as? TrackersCollectionViewCell else { return nil }
+        let preview = cell.mainView
+        return UITargetedPreview(view: preview)
+    }
+    
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
         guard let categories = viewModel.visibleCategories else { return nil }
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { actions in
