@@ -333,8 +333,7 @@
 		3577A68D2C62CF9A00A05395 /* TrackersViewController */ = {
 			isa = PBXGroup;
 			children = (
-				350353CB2C35127F00C8293D /* TrackersViewController.swift */,
-				35C1E5252C6FE9E700872795 /* TrackersViewModel.swift */,
+				35C1E52F2C7F899B00872795 /* TrackersViewController */,
 				35C1E52E2C7F858B00872795 /* FilterViewController */,
 				355B55342C3FC3280073A169 /* CreateTrackers */,
 				35C1E5102C6CB4C400872795 /* CategoryViewController */,
@@ -412,6 +411,15 @@
 				35C1E5292C7F21D900872795 /* FilterViewController.swift */,
 			);
 			path = FilterViewController;
+			sourceTree = "<group>";
+		};
+		35C1E52F2C7F899B00872795 /* TrackersViewController */ = {
+			isa = PBXGroup;
+			children = (
+				350353CB2C35127F00C8293D /* TrackersViewController.swift */,
+				35C1E5252C6FE9E700872795 /* TrackersViewModel.swift */,
+			);
+			path = TrackersViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

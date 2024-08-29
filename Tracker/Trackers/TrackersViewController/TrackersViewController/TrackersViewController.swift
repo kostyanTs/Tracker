@@ -354,6 +354,39 @@ final class TrackersViewController: UIViewController {
         view.titleLabel.text = categories[indexPath.section].title
         view.backgroundColor = .clear
     }
+    
+    private func filteredTrackersAreHidden(bool: Bool) {
+        nilFilteredTrackersImage.isHidden = bool
+        nilFilteredTrackersLabel.isHidden = bool
+    }
+    
+    private func showAlert(tracker: Tracker) {
+        let alert = UIAlertController(title: "Уверены что хотите удалить трекер?",
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { action in
+            self.switchActions(style: action.style, tracker: tracker)
+        }))
+        alert.addAction(UIAlertAction(title: "Удалить", style: .destructive, handler: {action in
+            self.switchActions(style: action.style, tracker: tracker)
+        }))
+        self.present(alert, animated: true)
+    }
+    
+    private func switchActions(style: UIAlertAction.Style, tracker: Tracker) {
+        switch style {
+        case .default:
+            return
+        case .cancel:
+            return
+        case .destructive:
+            viewModel.deleteTracker(tracker: tracker)
+            self.reloadTrackersForFilters()
+            return
+        @unknown default:
+            return
+        }
+    }
 
     @objc
     private func didTapLeftNavButton() {
@@ -389,15 +422,12 @@ final class TrackersViewController: UIViewController {
         if let searchText = searchField.text, !searchText.isEmpty {
             viewModel.updateVisibleCategories(searchText: searchText)
             cancelButton.isHidden = false
-            nilFilteredTrackersImage.isHidden = true
-            nilFilteredTrackersLabel.isHidden = true
+            filteredTrackersAreHidden(bool: true)
             if viewModel.visibleCategories == nil {
-                nilFilteredTrackersImage.isHidden = false
-                nilFilteredTrackersLabel.isHidden = false
+                filteredTrackersAreHidden(bool: false)
             }
         } else {
-            nilFilteredTrackersImage.isHidden = true
-            nilFilteredTrackersLabel.isHidden = true
+            filteredTrackersAreHidden(bool: true)
             viewModel.deleteFilterForVisibleCategories()
             cancelButton.isHidden = true
         }
@@ -478,6 +508,7 @@ extension TrackersViewController: UICollectionViewDelegate {
             }
             let delete = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
                 // TODO: add delete func to TrackerCategoryStore
+                self?.showAlert(tracker: tracker)
             }
             return UIMenu(title: "", children: [fixed, edit, delete])
         }
@@ -515,7 +546,6 @@ extension TrackersViewController: UICollectionViewDelegateFlowLayout {
 
 extension TrackersViewController: CreateTrackersDelegate {
     func reloadTrackersCollectionView() {
-//        weekday = nil
         viewModel.setupCategories(currentDate: currentDate)
         trackerCollectionView.reloadData()
         nilCenterLabel.isHidden = true

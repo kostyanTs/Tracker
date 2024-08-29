@@ -291,6 +291,21 @@ final class CreateUnregularEventViewController: UIViewController {
         return true
     }
     
+    private func createTracker() {
+        guard let nameTracker = trackerTitleTextField.text,
+              let color = dataHolder.colorForIndexPath,
+              let emoji = dataHolder.emojiForIndexPath
+        else { return }
+        let tracker = Tracker(id: UUID(),
+                              name: nameTracker,
+                              color: color,
+                              emoji: emoji,
+                              schedule: nil)
+        guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
+        trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
+        dataHolder.deleteValuesForIndexPath()
+    }
+    
     @objc func textFieldDidChanged() {
         if isButtonEnabled() {
             createButton.isEnabled = true
@@ -315,18 +330,7 @@ final class CreateUnregularEventViewController: UIViewController {
             dataHolder.colorForIndexPath == nil ||
             dataHolder.emojiForIndexPath == nil
         { return }
-        guard let nameTracker = trackerTitleTextField.text,
-              let color = dataHolder.colorForIndexPath,
-              let emoji = dataHolder.emojiForIndexPath
-        else { return }
-        let tracker = Tracker(id: UUID(),
-                              name: nameTracker,
-                              color: color,
-                              emoji: emoji,
-                              schedule: nil)
-        guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
-        trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
-        dataHolder.deleteValuesForIndexPath()
+        createTracker()
         delegate?.reloadTrackersUnregularCollectionView()
         dismiss(animated: true)
     }

@@ -30,6 +30,12 @@ final class TrackersViewModel {
             forWeekdays: currentDate?.getWeekday()
         )
     }
+
+// MARK: methods with trackerCategoryStore
+    
+    func deleteTracker(tracker: Tracker) {
+        trackerCategoryStore.deleteTracker(tracker: tracker)
+    }
     
     func fixTracker(tracker: Tracker) {
         let categoryTitles = trackerCategoryStore.loadOnlyTitleCategories()
@@ -42,6 +48,8 @@ final class TrackersViewModel {
     func unpinTracker(tracker: Tracker) {
         trackerCategoryStore.unpinTracker(tracker: tracker)
     }
+    
+// MARK: methods to filter categories
     
     func filterCategories(currentDate: Date?) -> String? {
         let filter = dataHolder.filter
@@ -61,36 +69,6 @@ final class TrackersViewModel {
             setupCategories(currentDate: currentDate)
         }
         return filter
-    }
-    
-    func setupComplitedTrackers() {
-        self.complitedTrackers = trackerRecordStore.loadTrackerRecords()
-    }
-    
-    func filterComplitedTrackers(trackerId: UUID) -> [TrackerRecord] {
-        complitedTrackers?.filter{$0.id.hashValue == trackerId.hashValue} ?? []
-    }
-    
-    func trackerIsDone(trackerRecord: TrackerRecord) {
-        trackerRecordStore.deleteTrackerRecord(trackerRecord: trackerRecord)
-    }
-    
-    func trackerIsNotDone(trackerRecord: TrackerRecord) {
-        trackerRecordStore.addNewTrackerRecord(trackerRecord: trackerRecord)
-    }
-    
-    func didTapPlusTrackerButton(trackerId: UUID) {
-        setupComplitedTrackers()
-        filterComplitedTrackers(trackerId: trackerId)
-    }
-    
-    func setupCategories(currentDate: Date?) {
-        let categories = makeCategoriesForWeeday(
-            categories: trackerCategoryStore.loadCategories(),
-            forWeekdays: currentDate?.getWeekday()
-        )
-        self.categories = categories?.filter{!$0.trackers.isEmpty}
-        self.visibleCategories = categories
     }
     
     func filterSuccessCategories(selectedDate: Date?)  -> [TrackerCategory]? {
@@ -141,6 +119,15 @@ final class TrackersViewModel {
             return nil
         }
         return newCategories
+    }
+    
+    func setupCategories(currentDate: Date?) {
+        let categories = makeCategoriesForWeeday(
+            categories: trackerCategoryStore.loadCategories(),
+            forWeekdays: currentDate?.getWeekday()
+        )
+        self.categories = categories?.filter{!$0.trackers.isEmpty}
+        self.visibleCategories = categories
     }
     
     func filterTrackers(searchText: String) -> [TrackerCategory]? {
@@ -206,6 +193,27 @@ final class TrackersViewModel {
             return nil
         }
         return newCategories
+    }
+    
+    func setupComplitedTrackers() {
+        self.complitedTrackers = trackerRecordStore.loadTrackerRecords()
+    }
+    
+    func filterComplitedTrackers(trackerId: UUID) -> [TrackerRecord] {
+        complitedTrackers?.filter{$0.id.hashValue == trackerId.hashValue} ?? []
+    }
+    
+    func trackerIsDone(trackerRecord: TrackerRecord) {
+        trackerRecordStore.deleteTrackerRecord(trackerRecord: trackerRecord)
+    }
+    
+    func trackerIsNotDone(trackerRecord: TrackerRecord) {
+        trackerRecordStore.addNewTrackerRecord(trackerRecord: trackerRecord)
+    }
+    
+    func didTapPlusTrackerButton(trackerId: UUID) {
+        setupComplitedTrackers()
+        filterComplitedTrackers(trackerId: trackerId)
     }
     
     func updateVisibleCategories(searchText: String) {

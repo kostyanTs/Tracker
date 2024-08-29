@@ -354,6 +354,22 @@ final class CreateHabitViewController: UIViewController {
         return scheduleString
     }
     
+    private func createTracker() {
+        guard let nameTracker = trackerTitleTextField.text,
+              let color = dataHolder.colorForIndexPath,
+              let emoji = dataHolder.emojiForIndexPath,
+              let schedule = dataHolder.scheduleForIndexPath
+        else { return }
+        let tracker = Tracker(id: UUID(),
+                              name: nameTracker,
+                              color: color,
+                              emoji: emoji,
+                              schedule: schedule)
+        guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
+        trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
+        dataHolder.deleteValuesForIndexPath()
+    }
+    
     @objc func textFieldDidChanged() {
         if isButtonEnabled() {
             createButton.isEnabled = true
@@ -379,19 +395,7 @@ final class CreateHabitViewController: UIViewController {
             dataHolder.colorForIndexPath == nil ||
             dataHolder.emojiForIndexPath == nil
         { return }
-        guard let nameTracker = trackerTitleTextField.text,
-              let color = dataHolder.colorForIndexPath,
-              let emoji = dataHolder.emojiForIndexPath,
-              let schedule = dataHolder.scheduleForIndexPath
-        else { return }
-        let tracker = Tracker(id: UUID(),
-                              name: nameTracker,
-                              color: color,
-                              emoji: emoji,
-                              schedule: schedule)
-        guard let categoryTitle = dataHolder.categoryForIndexPath else { return }
-        trackerCategoryStore.saveTrackerCategory(categoryTitle: categoryTitle, tracker: tracker)
-        dataHolder.deleteValuesForIndexPath()
+        createTracker()
         delegate?.reloadTrackersHabitCollectionView()
         dismiss(animated: true)
     }

@@ -166,7 +166,7 @@ final class TrackersCollectionViewCell: UICollectionViewCell {
             fixImage.topAnchor.constraint(equalTo: mainView.topAnchor, constant: 12),
             fixImage.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -4),
             fixImage.widthAnchor.constraint(equalTo: fixImage.heightAnchor),
-            fixImage.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: 139),
+            fixImage.bottomAnchor.constraint(equalTo: mainView.bottomAnchor, constant: -54),
             
             plusButton.topAnchor.constraint(equalTo: buttonView.topAnchor, constant: 8),
             plusButton.trailingAnchor.constraint(equalTo: buttonView.trailingAnchor, constant: -12),
