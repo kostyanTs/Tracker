@@ -7,7 +7,7 @@
 
 import UIKit
 import CoreData
-import AppMetricaCore
+import YandexMobileMetrica
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,9 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        let configuration = AppMetricaConfiguration(apiKey: "c2da613a-2c05-4511-9e0f-3749a33c3916")
-            AppMetrica.activate(with: configuration!)
-        return true
+        guard let configuration = YMMYandexMetricaConfiguration(apiKey: "c2da613a-2c05-4511-9e0f-3749a33c3916") else { // используйте ваш ключ
+                return true
+            }
+                
+            YMMYandexMetrica.activate(with: configuration)
+            return true
     }
     
     lazy var persistentContainer: NSPersistentContainer = {
