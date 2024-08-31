@@ -39,8 +39,8 @@ final class TrackersViewModel {
     
     func fixTracker(tracker: Tracker) {
         let categoryTitles = trackerCategoryStore.loadOnlyTitleCategories()
-        if categoryTitles.filter({$0 == NSLocalizedString("fixCategory", comment: "")}).isEmpty {
-            trackerCategoryStore.saveOnlyTitleCategory(categoryTitle: NSLocalizedString("fixCategory", comment: ""))
+        if categoryTitles.filter({$0 == "Fixed"}).isEmpty {
+            trackerCategoryStore.saveOnlyTitleCategory(categoryTitle: "Fixed")
         }
         trackerCategoryStore.updateFixTracker(tracker: tracker)
     }

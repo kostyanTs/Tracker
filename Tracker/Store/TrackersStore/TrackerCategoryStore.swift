@@ -112,7 +112,7 @@ final class TrackerCategoryStore: NSObject {
     func updateFixTracker(tracker: Tracker) {
         let fixRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
         fixRequest.predicate = NSPredicate(
-            format: "%K == '\(NSLocalizedString("fixCategory", comment: ""))'",
+            format: "%K == 'Fixed'",
             #keyPath(TrackerCategoryCoreData.title))
         guard let fixCategory = try? context.fetch(fixRequest).first else { return }
         let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")

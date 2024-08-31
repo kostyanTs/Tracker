@@ -527,7 +527,7 @@ extension TrackersViewController: UICollectionViewDelegate {
             let category: TrackerCategory = categories[indexPaths[0].section]
             guard let cell = collectionView.cellForItem(at: indexPaths[0]) as? TrackersCollectionViewCell else { return nil }
             let dayText = cell.dayLabel.text
-            if categories[indexPaths[0].section].title == NSLocalizedString("fixCategory", comment: "") {
+            if categories[indexPaths[0].section].title == "Fixed" {
                 fixed = UIAction(title: "Открепить") { [weak self] _ in
                     self?.viewModel.unpinTracker(tracker: tracker)
                     self?.reloadTrackersForFilters()
