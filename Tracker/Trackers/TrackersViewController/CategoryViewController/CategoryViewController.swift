@@ -101,7 +101,8 @@ final class CategoryViewController: UIViewController {
         [nilCenterImageView, nilCenterLabel,
          tableView,
          lineView,
-         addCategoryButton].forEach{
+         addCategoryButton].forEach{ [weak self] in
+            guard let self = self else { return }
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }

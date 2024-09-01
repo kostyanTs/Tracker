@@ -62,7 +62,8 @@ final class CreateTrackersViewController: UIViewController {
     }
     
     private func setupView() {
-        [unregularButton, habitButton].forEach{
+        [unregularButton, habitButton].forEach{ [weak self] in
+            guard let self = self else { return }
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }

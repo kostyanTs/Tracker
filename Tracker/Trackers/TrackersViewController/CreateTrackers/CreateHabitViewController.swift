@@ -199,13 +199,15 @@ final class CreateHabitViewController: UIViewController {
          createButton, cancelButton,
          lineView, colorCollectionView,
          emojiCollectionView, emojiTitle,
-         colorTitle].forEach{
+         colorTitle].forEach{ [weak self] in
+            guard let self = self else { return }
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         [scrollView, contentView,
          trackerTitleContainerView, limitLabel,
-         trackerTitleView, trackerTitleTextField].forEach{
+         trackerTitleView, trackerTitleTextField].forEach{ [weak self] in
+            guard let self = self else { return }
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         

@@ -88,7 +88,8 @@ final class StatisticsViewController: UIViewController {
          tableView,
          titleLabel,
          nilStatisticImage,
-         nilStatisticLabel].forEach({
+         nilStatisticLabel].forEach({ [weak self] in
+            guard let self = self else { return }
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         })

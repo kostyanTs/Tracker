@@ -178,13 +178,15 @@ final class CreateUnregularEventViewController: UIViewController {
         [ categoryButton,
          cancelButton, createButton,
          colorCollectionView, emojiCollectionView,
-         emojiTitle, colorTitle].forEach{
+         emojiTitle, colorTitle].forEach{ [weak self] in
+            guard let self = self else { return }
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         [scrollView, contentView,
          trackerTitleContainerView, limitLabel,
-         trackerTitleView, trackerTitleTextField].forEach{
+         trackerTitleView, trackerTitleTextField].forEach{ [weak self] in
+            guard let self = self else { return }
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         

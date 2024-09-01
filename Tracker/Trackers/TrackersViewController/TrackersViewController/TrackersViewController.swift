@@ -249,12 +249,14 @@ final class TrackersViewController: UIViewController {
          nilFilteredTrackersLabel,
          searchStackView,
          trackerCollectionView,
-         filterButton].forEach{
+         filterButton].forEach{ [weak self] in
+            guard let self = self else { return }
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         [searchTextField, 
-         searchImageView].forEach({
+         searchImageView].forEach({ [weak self] in
+            guard let self = self else { return }
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
  

@@ -36,7 +36,8 @@ final class ForOnboardingViewControlller: UIViewController {
     func setupViews() {
         [contentView,
          textLabel
-        ].forEach{
+        ].forEach{ [weak self] in
+            guard let self = self else { return }
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }

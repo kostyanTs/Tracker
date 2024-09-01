@@ -219,13 +219,15 @@ final class EditTrackerViewController: UIViewController {
          createButton, cancelButton,
          lineView, colorCollectionView,
          emojiCollectionView, emojiTitle,
-         colorTitle, dayLabel].forEach{
+         colorTitle, dayLabel].forEach{ [weak self] in
+            guard let self = self else { return }
             contentView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         [scrollView, contentView,
          trackerTitleContainerView, limitLabel,
-         trackerTitleView, trackerTitleTextField].forEach{
+         trackerTitleView, trackerTitleTextField].forEach{ [weak self] in
+            guard let self = self else { return }
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         

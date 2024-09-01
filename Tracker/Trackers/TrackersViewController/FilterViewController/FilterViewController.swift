@@ -76,7 +76,8 @@ final class FilterViewController: UIViewController {
     private func setupViews() {
         [tableView,
         underlineView,
-         upperlineView].forEach{
+         upperlineView].forEach{ [weak self] in
+            guard let self = self else { return }
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
