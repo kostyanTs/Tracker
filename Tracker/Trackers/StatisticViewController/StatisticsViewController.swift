@@ -63,8 +63,6 @@ final class StatisticsViewController: UIViewController {
         tableView.dataSource = self
     }
     
-    
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         guard let trackerRecords = trackerRecords else {
@@ -106,7 +104,6 @@ final class StatisticsViewController: UIViewController {
             titleLabel.heightAnchor.constraint(equalToConstant: 41),
             
             tableView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 71),
-//            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -120),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             tableView.heightAnchor.constraint(greaterThanOrEqualToConstant: 100),
@@ -125,6 +122,9 @@ final class StatisticsViewController: UIViewController {
     
     private func makeAvarageValue() -> Int {
         guard let trackerRecords = trackerRecords else { return 0 }
+        if trackerRecords.isEmpty {
+            return 0
+        }
         let sortTrackerRecords = trackerRecords.sorted{ obj1, obj2 in
             obj1.date < obj2.date
         }
@@ -194,6 +194,4 @@ extension StatisticsViewController: UITableViewDataSource {
     }
 }
 
-extension StatisticsViewController: UITableViewDelegate {
-    
-}
+extension StatisticsViewController: UITableViewDelegate {}

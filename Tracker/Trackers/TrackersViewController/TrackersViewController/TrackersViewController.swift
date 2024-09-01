@@ -86,7 +86,7 @@ final class TrackersViewController: UIViewController {
     private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .clear
-        button.setTitle("Отменить", for: .normal)
+        button.setTitle(NSLocalizedString("cancel", comment: ""), for: .normal)
         button.setTitleColor(.blue, for: .normal)
         button.isHidden = true
         button.addTarget(self, action: #selector(Self.didTapCancelButton), for: .touchDown)
@@ -97,7 +97,7 @@ final class TrackersViewController: UIViewController {
         let inputView = UITextField()
         inputView.backgroundColor = .clear
         inputView.textColor = .ypBlackDay
-        inputView.placeholder = "Поиск"
+        inputView.placeholder = NSLocalizedString("search", comment: "")
         inputView.tintColor = .ypSearchGreyText
         inputView.addTarget(self, action: #selector(Self.textFieldDidChanged), for: .editingChanged)
         inputView.font = .systemFont(ofSize: 17, weight: .regular)
@@ -136,7 +136,7 @@ final class TrackersViewController: UIViewController {
         label.textColor = .ypBlackDay
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textAlignment = .center
-        label.text = "Что будем отслеживать?"
+        label.text = NSLocalizedString("emptyState.title", comment: "")
         return label
     }()
     
@@ -153,7 +153,7 @@ final class TrackersViewController: UIViewController {
         label.textColor = .ypBlackDay
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textAlignment = .center
-        label.text = "Ничего не найдено"
+        label.text = NSLocalizedString("notFind", comment: "")
         label.isHidden = true
         return label
     }()

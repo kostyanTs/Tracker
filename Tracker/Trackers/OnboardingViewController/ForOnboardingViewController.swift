@@ -20,7 +20,7 @@ final class ForOnboardingViewControlller: UIViewController {
 
     private lazy var textLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .ypBlackDay
+        label.textColor = .ypBlack
         label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textAlignment = .center
         label.numberOfLines = 2

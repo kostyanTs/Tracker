@@ -36,7 +36,7 @@ final class OnboardingViewController: UIPageViewController {
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.textColor = .ypWhiteDay
-        button.backgroundColor = .ypBlackDay
+        button.backgroundColor = .ypBlack
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false

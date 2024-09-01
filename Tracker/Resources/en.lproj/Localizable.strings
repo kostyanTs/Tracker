@@ -6,13 +6,15 @@
   
 */
 
-"emptyState.title" = "Что будем отслеживать?";
+"emptyState.title" = "What will we track?";
 "delete" = "Удалить";
 "delete.confirmation" = "Уверены что хотите удалить трекер?";
-"cancel" = "Отменить";
+"cancel" = "Cancel";
 "titleTracker"="Trackers";
 "titleButtonFilters"="Filters";
 "cellDayTitle"="days";
 "fixCategory"="Fixed";
 "tabBarTrackers"="Trackers";
 "tabBarStatistic"="Statistic";
+"search"="Search";
+"notFind"="Nothing found";
