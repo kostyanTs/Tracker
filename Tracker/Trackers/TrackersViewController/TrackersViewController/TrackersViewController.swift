@@ -614,6 +614,14 @@ extension TrackersViewController: FilterDelegate {
         if filter == "Трекеры на сегодня" {
             datePicker.date = Date()
         }
+        let visibleCategories = viewModel.visibleCategories ?? []
+            if visibleCategories.isEmpty {
+                nilFilteredTrackersImage.isHidden = false
+                nilFilteredTrackersLabel.isHidden = false
+            } else {
+                nilFilteredTrackersImage.isHidden = true
+                nilFilteredTrackersLabel.isHidden = true
+            }
         trackerCollectionView.reloadData()
     }
 }
@@ -662,6 +670,7 @@ extension TrackersViewController: TrackerCategoryStoreDelegate {
 }
 
 extension TrackersViewController: EditTrackerDeledate {
+    
     func reloadTrackersEditCollectionView() {
         reloadTrackersForFilters()
     }
