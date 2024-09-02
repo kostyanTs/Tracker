@@ -336,7 +336,7 @@ final class TrackersViewController: UIViewController {
         let currentDate = datePicker.date.getDateWithoutTime()
         let trackerId = categories[indexPath.section].trackers[indexPath.row].id
         let complitedDates = viewModel.filterComplitedTrackers(trackerId: trackerId)
-        if categories[indexPath.section].title == NSLocalizedString("fixCategory", comment: "") {
+        if categories[indexPath.section].title == "Fixed" {
             cell.fixImage.isHidden = false
         } else {
             cell.fixImage.isHidden = true
@@ -373,6 +373,9 @@ final class TrackersViewController: UIViewController {
     private func configHeader(view: SupplementaryView, with indexPath: IndexPath) {
         guard let categories = viewModel.visibleCategories else { return }
         view.titleLabel.text = categories[indexPath.section].title
+        if categories[indexPath.section].title == "Fixed" {
+            view.titleLabel.text = NSLocalizedString("fixCategory", comment: "")
+        }
         view.backgroundColor = .clear
     }
     
