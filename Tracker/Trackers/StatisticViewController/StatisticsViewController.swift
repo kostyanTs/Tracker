@@ -149,6 +149,9 @@ final class StatisticsViewController: UIViewController {
         let sortTrackerRecords = trackerRecords.sorted{ obj1, obj2 in
             obj1.id == obj2.id
         }
+        if trackerRecords.isEmpty {
+            return 0
+        }
         print(sortTrackerRecords)
         var lastDate = sortTrackerRecords[0].date
         var counterTrackers = 0
@@ -175,7 +178,7 @@ extension StatisticsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: StatisticTableViewcell.reuseIdentifier, for: indexPath) as? StatisticTableViewcell else { return UITableViewCell()}
         cell.statisticTitle.text = statistic[indexPath.row]
-        guard let trackerRecords = trackerRecords else { return UITableViewCell()}
+        let trackerRecords = trackerRecords ?? []
         if indexPath.row == 0 {
             // TODO: do filter
             cell.statisticCounter.text = "\(Int(trackerRecords.count/3))"
