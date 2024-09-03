@@ -10,7 +10,7 @@ import UIKit
 final class StatisticsViewController: UIViewController {
     
     private let statistic = Statistic.statistic
-    private let trackerRecords = TrackerRecordStore().loadTrackerRecords()
+    private var trackerRecords = TrackerRecordStore().loadTrackerRecords()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -169,7 +169,7 @@ final class StatisticsViewController: UIViewController {
     }
 }
 
-extension StatisticsViewController: UITableViewDataSource {
+extension StatisticsViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         statistic.count
@@ -198,4 +198,11 @@ extension StatisticsViewController: UITableViewDataSource {
     }
 }
 
-extension StatisticsViewController: UITableViewDelegate {}
+extension StatisticsViewController: TrackersViewDelegate {
+    func uploadStatistic() {
+        self.trackerRecords = TrackerRecordStore().loadTrackerRecords()
+        tableView.reloadData()
+    }
+}
+
+

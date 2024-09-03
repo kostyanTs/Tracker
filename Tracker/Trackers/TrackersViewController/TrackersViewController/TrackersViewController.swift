@@ -8,10 +8,16 @@
 import UIKit
 import YandexMobileMetrica
 
+protocol TrackersViewDelegate: AnyObject {
+    func uploadStatistic()
+}
+
 final class TrackersViewController: UIViewController {
 
     private let trackerCategoryStore = TrackerCategoryStore()
     private var viewModel: TrackersViewModel = TrackersViewModel()
+    
+    weak var delegate: TrackersViewDelegate?
     
     private var selectedDate: Date?
     private var currentDate: Date?
@@ -654,7 +660,7 @@ extension TrackersViewController: TrackersCollectionViewCellProtocol {
         if tracker.schedule == nil {
             cell.dayLabel.text = ""
         }
-        
+        delegate?.uploadStatistic()
         let params : [AnyHashable : Any] = ["key1": "TrackersViewController", "key2": "trackerReadyButton"]
         YMMYandexMetrica.reportEvent("EVENT: click ", parameters: params, onFailure: { error in
             print("REPORT ERROR: %@", error.localizedDescription)

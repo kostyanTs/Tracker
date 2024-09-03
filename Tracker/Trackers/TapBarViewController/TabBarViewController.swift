@@ -17,6 +17,7 @@ final class TabBarViewController: UITabBarController {
     func setupViewControllers() {
         let trackersViewController = TrackersViewController()
         let statisticsViewController = StatisticsViewController()
+        trackersViewController.delegate = statisticsViewController
         let navigationTrackerController = UINavigationController(rootViewController: trackersViewController)
         navigationTrackerController.tabBarItem = UITabBarItem(
             title: NSLocalizedString("tabBarTrackers", comment: ""),

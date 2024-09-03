@@ -5,7 +5,7 @@
 //  Created by Konstantin on 15.07.2024.
 //
 
-import UIKit
+import UIKit 
 
 final class CategoryViewController: UIViewController {
     
