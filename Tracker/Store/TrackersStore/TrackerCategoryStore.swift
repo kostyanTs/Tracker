@@ -93,7 +93,7 @@ final class TrackerCategoryStore: NSObject {
         } 
         
         let trackerRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
-        categoryRequest.returnsObjectsAsFaults = false
+        trackerRequest.returnsObjectsAsFaults = false
         do {
             guard let results = try? context.fetch(trackerRequest) else { return }
             for obj in results {
@@ -103,7 +103,7 @@ final class TrackerCategoryStore: NSObject {
         }
         
         let trackerRecordRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
-        categoryRequest.returnsObjectsAsFaults = false
+        trackerRecordRequest.returnsObjectsAsFaults = false
         do {
             guard let results = try? context.fetch(trackerRecordRequest) else { return }
             for obj in results {

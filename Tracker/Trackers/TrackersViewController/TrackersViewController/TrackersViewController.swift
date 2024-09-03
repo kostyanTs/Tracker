@@ -623,6 +623,8 @@ extension TrackersViewController: FilterDelegate {
             if visibleCategories.isEmpty {
                 nilFilteredTrackersImage.isHidden = false
                 nilFilteredTrackersLabel.isHidden = false
+                nilCenterLabel.isHidden = true
+                nilCenterImageView.isHidden = true
             } else {
                 nilFilteredTrackersImage.isHidden = true
                 nilFilteredTrackersLabel.isHidden = true

@@ -10,10 +10,10 @@ import Foundation
 extension UserDefaults {
     var hasLaunchBefore: Bool {
         get {
-            return self.bool(forKey: "LaunchKey7")
+            return self.bool(forKey: "LaunchKey8")
         }
         set {
-            self.set(newValue, forKey: "LaunchKey7")
+            self.set(newValue, forKey: "LaunchKey8")
         }
     }
 }

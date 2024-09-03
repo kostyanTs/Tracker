@@ -144,11 +144,7 @@ final class CategoryViewController: UIViewController {
     @objc
     func didTapAddCategoryButton() {
         let createCategoryViewController = CreateCategoryViewController()
-        if viewModel.isCategoryForIndexPathNil() {
-            navigationController?.pushViewController(createCategoryViewController, animated: true)
-        } else {
-            navigationController?.popViewController(animated: true)
-        }
+        navigationController?.pushViewController(createCategoryViewController, animated: true)
     }
 }
 
@@ -176,19 +172,12 @@ extension CategoryViewController: UITableViewDelegate {
         tableView.cellForRow(at: indexPath)?.setSelected(true, animated: true)
         tableView.cellForRow(at: indexPath)?.setEditing(true, animated: true)
         viewModel.addCategoryForIndexPath(categoryTitle: viewModel.categories[indexPath.row])
-        
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         let cell = tableView.cellForRow(at: indexPath) as? CategoryTableViewCell
-        if cell?.isSelected == true {
-            tableView.deselectRow(at: indexPath, animated: true)
-            cell?.editingAccessoryType = .none
-            viewModel.deleteCategoryForIndexPath()
-            return nil
-        } else {
-            return indexPath
-        }
+        navigationController?.popViewController(animated: true)
+        return indexPath
     }
     
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
