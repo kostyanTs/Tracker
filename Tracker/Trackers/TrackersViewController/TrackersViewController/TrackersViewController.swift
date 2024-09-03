@@ -255,8 +255,7 @@ final class TrackersViewController: UIViewController {
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
         [searchTextField, 
-         searchImageView].forEach({ [weak self] in
-            guard let self = self else { return }
+         searchImageView].forEach({
             $0.translatesAutoresizingMaskIntoConstraints = false
         })
  

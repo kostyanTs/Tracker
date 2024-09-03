@@ -81,6 +81,38 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     
+    func deleteAllData() {
+        let categoryRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        categoryRequest.returnsObjectsAsFaults = false
+        do {
+            guard let results = try? context.fetch(categoryRequest) else { return }
+            for obj in results {
+                let managedObjData = obj as NSManagedObject
+                context.delete(managedObjData)
+            }
+        } 
+        
+        let trackerRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        categoryRequest.returnsObjectsAsFaults = false
+        do {
+            guard let results = try? context.fetch(trackerRequest) else { return }
+            for obj in results {
+                let managedObjData = obj as NSManagedObject
+                context.delete(managedObjData)
+            }
+        }
+        
+        let trackerRecordRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        categoryRequest.returnsObjectsAsFaults = false
+        do {
+            guard let results = try? context.fetch(trackerRecordRequest) else { return }
+            for obj in results {
+                let managedObjData = obj as NSManagedObject
+                context.delete(managedObjData)
+            }
+        }
+    }
+    
     func updateTracker(tracker: Tracker, updateTracker: Tracker, newCategoryTitle: String) {
         let categoryRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
         categoryRequest.predicate = NSPredicate(

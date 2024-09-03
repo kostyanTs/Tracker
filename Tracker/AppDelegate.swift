@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard let configuration = YMMYandexMetricaConfiguration(apiKey: "c2da613a-2c05-4511-9e0f-3749a33c3916") else { // используйте ваш ключ
                 return true
             }
-                
             YMMYandexMetrica.activate(with: configuration)
             return true
     }
