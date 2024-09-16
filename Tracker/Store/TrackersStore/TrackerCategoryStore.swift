@@ -64,6 +64,128 @@ final class TrackerCategoryStore: NSObject {
         saveTrackerCategory()
     }
     
+    func deleteTracker(tracker: Tracker) {
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        let predicateForName = NSPredicate(
+            format: "%K == '\(tracker.name)'",
+            #keyPath(TrackerCoreData.name))
+        let predicateForColor = NSPredicate(
+            format: "%K == '\(tracker.emoji)'",
+            #keyPath(TrackerCoreData.emoji))
+        let predicate = NSCompoundPredicate(
+            type: NSCompoundPredicate.LogicalType.and,
+            subpredicates: [predicateForName, predicateForColor])
+        request.predicate = predicate
+        if let newTracker = try? context.fetch(request).first {
+            context.delete(newTracker)
+        }
+        saveTrackerCategory()
+    }
+    
+    func deleteAllData() {
+        let categoryRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        categoryRequest.returnsObjectsAsFaults = false
+        do {
+            guard let results = try? context.fetch(categoryRequest) else { return }
+            for obj in results {
+                let managedObjData = obj as NSManagedObject
+                context.delete(managedObjData)
+            }
+        } 
+        saveTrackerCategory()
+        
+        let trackerRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        trackerRequest.returnsObjectsAsFaults = false
+        do {
+            guard let results = try? context.fetch(trackerRequest) else { return }
+            for obj in results {
+                let managedObjData = obj as NSManagedObject
+                context.delete(managedObjData)
+            }
+        }
+        
+        let trackerRecordRequest = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        trackerRecordRequest.returnsObjectsAsFaults = false
+        do {
+            guard let results = try? context.fetch(trackerRecordRequest) else { return }
+            for obj in results {
+                let managedObjData = obj as NSManagedObject
+                context.delete(managedObjData)
+            }
+        }
+    }
+    
+    func updateTracker(tracker: Tracker, updateTracker: Tracker, newCategoryTitle: String) {
+        let categoryRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        categoryRequest.predicate = NSPredicate(
+            format: "%K == '\(newCategoryTitle)'",
+            #keyPath(TrackerCategoryCoreData.title))
+        guard let newCategory = try? context.fetch(categoryRequest).first else { return }
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        let predicateForName = NSPredicate(
+            format: "%K == '\(tracker.name)'",
+            #keyPath(TrackerCoreData.name))
+        let predicateForColor = NSPredicate(
+            format: "%K == '\(tracker.emoji)'",
+            #keyPath(TrackerCoreData.emoji))
+        let predicate = NSCompoundPredicate(
+            type: NSCompoundPredicate.LogicalType.and,
+            subpredicates: [predicateForName, predicateForColor])
+        request.predicate = predicate
+        let encoder = JSONEncoder()
+        if let newTracker = try? context.fetch(request).first {
+            newTracker.category = newCategory
+            newTracker.name = updateTracker.name
+            newTracker.color = updateTracker.color.hexString()
+            newTracker.emoji = updateTracker.emoji
+            newTracker.schedule = try? encoder.encode(updateTracker.schedule)
+        }
+        saveTrackerCategory()
+    }
+    
+    func updateFixTracker(tracker: Tracker) {
+        let fixRequest = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        fixRequest.predicate = NSPredicate(
+            format: "%K == 'Fixed'",
+            #keyPath(TrackerCategoryCoreData.title))
+        guard let fixCategory = try? context.fetch(fixRequest).first else { return }
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        let predicateForName = NSPredicate(
+            format: "%K == '\(tracker.name)'",
+            #keyPath(TrackerCoreData.name))
+        let predicateForColor = NSPredicate(
+            format: "%K == '\(tracker.emoji)'",
+            #keyPath(TrackerCoreData.emoji))
+        let predicate = NSCompoundPredicate(
+            type: NSCompoundPredicate.LogicalType.and,
+            subpredicates: [predicateForName, predicateForColor])
+        request.predicate = predicate
+        if let newTracker = try? context.fetch(request).first {
+            newTracker.extraCategory = newTracker.category
+            newTracker.category = fixCategory
+        }
+        saveTrackerCategory()
+    }
+    
+    func unpinTracker(tracker: Tracker) {
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        let predicateForName = NSPredicate(
+            format: "%K == '\(tracker.name)'",
+            #keyPath(TrackerCoreData.name))
+        let predicateForColor = NSPredicate(
+            format: "%K == '\(tracker.emoji)'",
+            #keyPath(TrackerCoreData.emoji))
+        let predicate = NSCompoundPredicate(
+            type: NSCompoundPredicate.LogicalType.and,
+            subpredicates: [predicateForName, predicateForColor])
+        request.predicate = predicate
+        if let newTracker = try? context.fetch(request).first {
+            newTracker.category = newTracker.extraCategory
+            newTracker.extraCategory = nil
+        }
+        saveTrackerCategory()
+    }
+    
     func saveOnlyTitleCategory(categoryTitle: String) {
         let trackerCategoryCoreData = TrackerCategoryCoreData(context: context)
         trackerCategoryCoreData.title = categoryTitle
@@ -87,7 +209,6 @@ final class TrackerCategoryStore: NSObject {
         let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
         guard let trackerCoreData = try? context.fetch(request) else { return nil }
         var trackerCategories:[TrackerCategory] = []
-        print(trackerCoreData.count)
         trackerCoreData.forEach({ tracker in
             let categoryTitle = tracker.category?.title ?? ""
             guard let data = tracker.schedule else { return }
@@ -135,7 +256,6 @@ final class TrackerCategoryStore: NSObject {
     private func saveTrackerCategory(){
         do{
             try context.save()
-            print("Category save")
         } catch {
             print("[TrackerCategoryStore]: error to save TrackerCategory in CoreData")
             context.rollback()
@@ -155,7 +275,11 @@ extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {
         insertedIndexes = nil
     }
     
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, 
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
         switch type {
         case .insert:
             if let indexPath = newIndexPath {

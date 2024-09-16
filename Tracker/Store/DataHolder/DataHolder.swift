@@ -7,7 +7,7 @@
 
 import UIKit
 
-// класс для хранения временных данных
+// MARK: класс для хранения временных данных
 final class DataHolder {
     
     static let shared = DataHolder()
@@ -16,6 +16,8 @@ final class DataHolder {
     var scheduleForIndexPath: [WeekDay?]?
     var emojiForIndexPath: String?
     var colorForIndexPath: UIColor?
+    
+    var filter: String?
     
     private init() {}
 

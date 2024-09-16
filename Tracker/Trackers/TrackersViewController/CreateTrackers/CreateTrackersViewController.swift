@@ -19,7 +19,7 @@ final class CreateTrackersViewController: UIViewController {
         let label = UILabel()
         label.text = "Создание трекера"
         label.font = .systemFont(ofSize: 16, weight: .medium)
-        label.textColor = .black
+        label.textColor = .ypBlackDay
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -30,7 +30,7 @@ final class CreateTrackersViewController: UIViewController {
         button.setTitle("Привычка", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.titleLabel?.textAlignment = .center
-        button.titleLabel?.textColor = .ypWhiteDay
+        button.setTitleColor(.ypWhiteDay, for: .normal)
         button.backgroundColor = .ypBlackDay
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
@@ -43,7 +43,7 @@ final class CreateTrackersViewController: UIViewController {
         button.setTitle("Нерегулярные событие", for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
         button.titleLabel?.textAlignment = .center
-        button.titleLabel?.textColor = .ypWhiteDay
+        button.setTitleColor(.ypWhiteDay, for: .normal)
         button.backgroundColor = .ypBlackDay
         button.layer.masksToBounds = true
         button.layer.cornerRadius = 16
@@ -62,7 +62,8 @@ final class CreateTrackersViewController: UIViewController {
     }
     
     private func setupView() {
-        [unregularButton, habitButton].forEach{
+        [unregularButton, habitButton].forEach{ [weak self] in
+            guard let self = self else { return }
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }

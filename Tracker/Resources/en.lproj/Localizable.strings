@@ -1,0 +1,20 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Konstantin on 30.08.2024.
+  
+*/
+
+"emptyState.title" = "What will we track?";
+"delete" = "Удалить";
+"delete.confirmation" = "Уверены что хотите удалить трекер?";
+"cancel" = "Cancel";
+"titleTracker"="Trackers";
+"titleButtonFilters"="Filters";
+"cellDayTitle"="days";
+"fixCategory"="Fixed";
+"tabBarTrackers"="Trackers";
+"tabBarStatistic"="Statistic";
+"search"="Search";
+"notFind"="Nothing found";

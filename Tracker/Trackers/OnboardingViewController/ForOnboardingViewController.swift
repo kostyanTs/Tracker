@@ -20,7 +20,7 @@ final class ForOnboardingViewControlller: UIViewController {
 
     private lazy var textLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .ypBlackDay
+        label.textColor = .ypBlack
         label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textAlignment = .center
         label.numberOfLines = 2
@@ -36,7 +36,8 @@ final class ForOnboardingViewControlller: UIViewController {
     func setupViews() {
         [contentView,
          textLabel
-        ].forEach{
+        ].forEach{ [weak self] in
+            guard let self = self else { return }
             $0.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview($0)
         }
