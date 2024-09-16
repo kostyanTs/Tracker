@@ -79,6 +79,7 @@ final class TrackerCategoryStore: NSObject {
         if let newTracker = try? context.fetch(request).first {
             context.delete(newTracker)
         }
+        saveTrackerCategory()
     }
     
     func deleteAllData() {
@@ -91,6 +92,7 @@ final class TrackerCategoryStore: NSObject {
                 context.delete(managedObjData)
             }
         } 
+        saveTrackerCategory()
         
         let trackerRequest = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
         trackerRequest.returnsObjectsAsFaults = false

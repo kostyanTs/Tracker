@@ -226,6 +226,17 @@ final class TrackersViewController: UIViewController {
         })
     }
     
+    private func checkVisibleTrackers() {
+        let visibleCategories = viewModel.visibleCategories ?? []
+            if visibleCategories.isEmpty {
+                nilCenterLabel.isHidden = false
+                nilCenterImageView.isHidden = false
+            } else {
+                nilCenterImageView.isHidden = true
+                nilCenterLabel.isHidden = true
+            }
+    }
+    
     private func setupSelfValues() {
         self.currentDate = datePicker.date.getDateWithoutTime()
         viewModel.setupCategories(currentDate: currentDate)
@@ -389,6 +400,11 @@ final class TrackersViewController: UIViewController {
         nilFilteredTrackersLabel.isHidden = bool
     }
     
+    private func nilCenterLabelsAreHiden(bool: Bool) {
+        nilCenterLabel.isHidden = bool
+        nilCenterImageView.isHidden = bool
+    }
+    
     private func showAlert(tracker: Tracker) {
         let alert = UIAlertController(title: "Уверены что хотите удалить трекер?",
                                       message: nil,
@@ -434,6 +450,7 @@ final class TrackersViewController: UIViewController {
     private func didTapCancelButton() {
         searchTextField.text = nil
         textFieldDidChanged(searchTextField)
+        checkVisibleTrackers()
     }
     
     @objc
@@ -453,6 +470,7 @@ final class TrackersViewController: UIViewController {
         guard let selectedDate = selectedDate else { return }
         viewModel.setupCategories(currentDate: selectedDate)
         trackerCollectionView.reloadData()
+        checkVisibleTrackers()
     }
     
     @objc func textFieldDidChanged(_ searchField: UITextField) {
@@ -462,6 +480,7 @@ final class TrackersViewController: UIViewController {
             filteredTrackersAreHidden(bool: true)
             if viewModel.visibleCategories == nil {
                 filteredTrackersAreHidden(bool: false)
+                nilCenterLabelsAreHiden(bool: true)
             }
         } else {
             filteredTrackersAreHidden(bool: true)
@@ -607,9 +626,7 @@ extension TrackersViewController: CreateTrackersDelegate {
     func reloadTrackersCollectionView() {
         viewModel.setupCategories(currentDate: currentDate)
         trackerCollectionView.reloadData()
-        nilCenterLabel.isHidden = true
-        nilCenterImageView.isHidden = true
-        print("delegate work")
+        checkVisibleTrackers()
     }
 }
 
@@ -619,16 +636,7 @@ extension TrackersViewController: FilterDelegate {
         if filter == "Трекеры на сегодня" {
             datePicker.date = Date()
         }
-        let visibleCategories = viewModel.visibleCategories ?? []
-            if visibleCategories.isEmpty {
-                nilFilteredTrackersImage.isHidden = false
-                nilFilteredTrackersLabel.isHidden = false
-                nilCenterLabel.isHidden = true
-                nilCenterImageView.isHidden = true
-            } else {
-                nilFilteredTrackersImage.isHidden = true
-                nilFilteredTrackersLabel.isHidden = true
-            }
+        checkVisibleTrackers()
         trackerCollectionView.reloadData()
     }
 }
@@ -677,7 +685,6 @@ extension TrackersViewController: TrackerCategoryStoreDelegate {
 }
 
 extension TrackersViewController: EditTrackerDeledate {
-    
     func reloadTrackersEditCollectionView() {
         reloadTrackersForFilters()
     }

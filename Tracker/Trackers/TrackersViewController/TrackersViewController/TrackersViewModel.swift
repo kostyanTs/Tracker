@@ -181,7 +181,7 @@ final class TrackersViewModel {
                 if !newTrackers.isEmpty {
                     let newCategory = TrackerCategory(title: category.title, trackers: newTrackers)
                     newCategories.append(newCategory)
-                    if category.title == NSLocalizedString("fixCategory", comment: "") {
+                    if category.title ==  "Fixed" {
                         let category = newCategories.remove(at: counter)
                         newCategories.insert(category, at: 0)
                     }
