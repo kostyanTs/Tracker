@@ -439,11 +439,6 @@ final class EditTrackerViewController: UIViewController {
         updateTracker()
         delegate?.reloadTrackersEditCollectionView()
         dismiss(animated: true)
-//        print(trackerTitleTextField.text ?? "")
-//        print(dataHolder.scheduleForIndexPath)
-//        print(dataHolder.categoryForIndexPath ?? "")
-//        print(dataHolder.colorForIndexPath ?? .red)
-//        print(dataHolder.emojiForIndexPath ?? "")
     }
     
     @objc

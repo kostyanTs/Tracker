@@ -204,5 +204,3 @@ extension StatisticsViewController: TrackersViewDelegate {
         tableView.reloadData()
     }
 }
-
-

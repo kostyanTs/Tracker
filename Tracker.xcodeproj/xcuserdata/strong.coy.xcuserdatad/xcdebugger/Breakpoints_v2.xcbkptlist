@@ -526,8 +526,8 @@
             filePath = "Tracker/Trackers/TrackersViewController/EditTrackerViewController/EditTrackerViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "536"
-            endingLineNumber = "536"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
             landmarkName = "collectionView(_:cellForItemAt:)"
             landmarkType = "7">
          </BreakpointContent>

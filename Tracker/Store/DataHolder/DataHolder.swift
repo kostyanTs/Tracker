@@ -7,7 +7,7 @@
 
 import UIKit
 
-// класс для хранения временных данных
+// MARK: класс для хранения временных данных
 final class DataHolder {
     
     static let shared = DataHolder()
